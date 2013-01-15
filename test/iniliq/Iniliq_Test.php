@@ -94,4 +94,13 @@ class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 		$ini      = ( new \Pixel418\Iniliq )->parse( $files );
 		$this->assertEquals( $ini, [ 'extensions' => [ 'Extension2' ] ] );
 	}
+
+
+
+	// FILE WITH ADVANCED SELECTORS
+	public function test_parsing_a_file_with_advanced_selectors( ) {
+		$file = realpath( __DIR__ . '/../resource/advanced-selector.ini' );
+		$ini  = ( new \Pixel418\Iniliq )->parse( $file );
+		$this->assertEquals( $ini, [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ] );
+	}
 }

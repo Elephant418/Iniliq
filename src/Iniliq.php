@@ -18,6 +18,8 @@ class Iniliq {
         $result = $initialize;
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
+            $this->rewrite_advanced_selectors( $parsed );
+            $this->rewrite_advanced_values( $parsed );
             $this->merge_values( $result, $parsed );
             // Merge keys
         }
@@ -28,6 +30,29 @@ class Iniliq {
     /*************************************************************************
       PROTECTED METHODS                   
      *************************************************************************/
+    protected function rewrite_advanced_selectors( &$values ) {
+        foreach ( $values as $key => &$value ) {
+            if ( is_array( $value ) ) {
+                $this->rewrite_advanced_selectors( $value );
+            }
+            if ( \UString\has( $key, '.' ) ) {
+                $path = explode( '.', $key );
+                $current =& $values;
+                while ( ( $current_key = array_shift( $path ) ) ) {
+                    if ( ! isset( $current[ $current_key ] ) ) {
+                        $current[ $current_key ] = [ ];
+                    }
+                    $current =& $current[ $current_key ];
+                }
+                $current = $value;
+                unset( $values[ $key ] );
+            }
+        }
+    }
+
+    protected function rewrite_advanced_values( &$values ) {
+    }
+
     protected function parse_ini( $file ) {
         $parsed = [ ];
         if ( \UString\has( $file, PHP_EOL ) ) {
@@ -70,9 +95,15 @@ class Iniliq {
         \UArray\do_convert_to_array( $reference );
         \UArray\do_convert_to_array( $values );
         foreach ( $values as $value ) {
-            $pos = array_search( $value, $reference );
-            if ( $pos !== FALSE ) {
-                array_splice( $reference, $pos, 1 );
+            $keys = array_keys( $reference, $value );
+            foreach( $keys as $key ) {
+                if ( $key !== FALSE ) {
+                    if ( is_numeric( $key ) ) {
+                        array_splice( $reference, $key, 1 );
+                    } else {
+                        unset( $reference[ $key ] );
+                    }
+                }
             }
         }
     }
