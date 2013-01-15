@@ -1,7 +1,7 @@
 {
     "name": "pixel418/iniliq",
     "type": "library",
-    "description": "",
+    "description": "An ini parser for inherited values through multiple configuration files",
     "keywords": [ "ini" ],
     "homepage": "https://github.com/Pixel418/Iniliq",
     "license": "MIT",

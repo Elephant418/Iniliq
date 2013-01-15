@@ -1,7 +1,7 @@
 Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png)](http://travis-ci.org/Pixel418/Iniliq)
 ======
 
-
+An ini parser for inherited values through multiple configuration files
 
 1. [Let's code](#lets-code)
 2. [How to Install](#how-to-install)
@@ -12,6 +12,10 @@ Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png)](http:
 
 Let's code
 -------- 
+
+```php
+Soon available ;)
+```
 
 [&uarr; top](#readme)
 
