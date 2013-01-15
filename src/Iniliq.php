@@ -42,7 +42,7 @@ class Iniliq {
             }
         }
     }
-    
+
     protected function rewrite_array_selectors( &$values ) {
         foreach ( $values as $key => &$value ) {
             if ( is_array( $value ) ) {
@@ -128,4 +128,4 @@ if ( ! defined( 'Pixel418\\VENDOR_ROOT_PATH' ) ) {
         define( 'Pixel418\\VENDOR_ROOT_PATH', substr( __DIR__, 0, $pos ) . '/vendor/' );
     }
 }
-require_once( \Pixel418\VENDOR_ROOT_PATH . 'pixel418/ubiq/ubiq/Ubiq.php' );
+require_once( \Pixel418\VENDOR_ROOT_PATH . 'pixel418/ubiq/src/Ubiq.php' );
