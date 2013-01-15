@@ -2,7 +2,7 @@
 
 namespace Test\Iniliq;
 
-require_once( __DIR__ . '/../../vendor/pixel418/iniliq/iniliq/Iniliq.php' );
+require_once( __DIR__ . '/../../vendor/pixel418/iniliq/src/Iniliq.php' );
 
 class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 
@@ -20,6 +20,15 @@ class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 		$files = [ $file, $file ];
 		$ini   = ( new \Pixel418\Iniliq )->parse( $files );
 		$this->assertEquals( $ini, parse_ini_file( $file, TRUE ) );
+	}
+
+	public function test_parsing_a_simple_file_with_init_values( ) {
+		$file    = realpath( __DIR__ . '/../resource/simple.ini' );
+		$files   = [ $file, $file ];
+		$default = [ 'default_value' => 'on' ];
+		$ini     = ( new \Pixel418\Iniliq )->parse( $files, $default );
+		$assert  = array_merge( parse_ini_file( $file, TRUE ), $default ); 
+		$this->assertEquals( $ini, $assert );
 	}
 
 

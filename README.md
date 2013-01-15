@@ -41,7 +41,7 @@ Iniliq can now be [downloaded via composer](http://getcomposer.org/doc/01-basic-
 The last step is to include it in your PHP file :
 
 ```php
-require_once( './vendor/pixel418/iniliq/iniliq/Iniliq.php' );
+require_once( './vendor/pixel418/iniliq/src/Iniliq.php' );
 ```
 
 [&uarr; top](#readme)
