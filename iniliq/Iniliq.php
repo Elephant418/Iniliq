@@ -72,7 +72,7 @@ class Iniliq {
         foreach ( $values as $value ) {
             $pos = array_search( $value, $reference );
             if ( $pos !== FALSE ) {
-                unset( $reference[ $pos ] );
+                array_splice( $reference, $pos, 1 );
             }
         }
     }
