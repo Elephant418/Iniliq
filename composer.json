@@ -1,0 +1,18 @@
+{
+    "name": "pixel418/iniliq",
+    "type": "library",
+    "description": "",
+    "keywords": [ "ini" ],
+    "homepage": "https://github.com/Pixel418/Iniliq",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Thomas ZILLIOX",
+            "homepage": "http://zilliox.me",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    }
+}
