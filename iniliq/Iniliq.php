@@ -14,7 +14,7 @@ class Iniliq {
       PUBLIC METHODS                   
      *************************************************************************/
     public function parse( $files, $initialize = [ ] ) {
-        \UArray\must_be_array( $files );
+        \UArray\do_convert_to_array( $files );
         $result = $initialize;
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
@@ -30,7 +30,7 @@ class Iniliq {
      *************************************************************************/
     protected function parse_ini( $file ) {
         $parsed = [ ];
-        if ( \UString\contains( $file, PHP_EOL ) ) {
+        if ( \UString\has( $file, PHP_EOL ) ) {
                 $parsed = parse_ini_string( $file, TRUE );
         } else {
             $parsed = parse_ini_file( $file, TRUE );
@@ -38,16 +38,47 @@ class Iniliq {
         return $parsed;
     }
 
-    protected function merge_values( &$reference, $add ) {
-        foreach ( $add as $key => $value ) {
-            if ( is_numeric( $key ) ) {
-                $reference[ ] = $value;
+    protected function merge_values( &$reference, $values ) {
+        foreach ( $values as $key => $value ) {
+            if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
+                $key = preg_replace( '/\s*\+\s*$/', '', $key );
+                $this->append_values( $reference[ $key ], $value );
+            } else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
+                $key = preg_replace( '/\s*-\s*$/', '', $key );
+                $this->remove_value( $reference[ $key ], $value );
             } else if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
                 $this->merge_values( $reference[ $key ], $value );
+            } else {
+                $this->replace_value( $reference[ $key ], $value );
+            }
+        }
+    }
+
+    protected function append_values( &$reference, $values ) {
+        \UArray\do_convert_to_array( $reference );
+        \UArray\do_convert_to_array( $values );
+        foreach ( $values as $key => $value ) {
+            if ( is_numeric( $key ) ) {
+                $reference[ ] = $value;
             } else {
                 $reference[ $key ] = $value;
             }
         }
+    }
+
+    protected function remove_value( &$reference, $values ) {
+        \UArray\do_convert_to_array( $reference );
+        \UArray\do_convert_to_array( $values );
+        foreach ( $values as $value ) {
+            $pos = array_search( $value, $reference );
+            if ( $pos !== FALSE ) {
+                unset( $reference[ $pos ] );
+            }
+        }
+    }
+
+    protected function replace_value( &$reference, $value ) {
+        $reference = $value;
     }
 }
 
