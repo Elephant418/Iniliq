@@ -103,4 +103,13 @@ class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 		$ini  = ( new \Pixel418\Iniliq )->parse( $file );
 		$this->assertEquals( $ini, [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ] );
 	}
+
+
+
+	// FILE WITH ADVANCED VALUES
+	public function test_parsing_a_file_with_advanced_values( ) {
+		$file = realpath( __DIR__ . '/../resource/advanced-value.ini' );
+		$ini  = ( new \Pixel418\Iniliq )->parse( $file );
+		$this->assertEquals( $ini, [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ] );
+	}
 }

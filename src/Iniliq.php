@@ -18,10 +18,9 @@ class Iniliq {
         $result = $initialize;
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
-            $this->rewrite_advanced_selectors( $parsed );
             $this->rewrite_advanced_values( $parsed );
+            $this->rewrite_advanced_selectors( $parsed );
             $this->merge_values( $result, $parsed );
-            // Merge keys
         }
         return $result;
     }
@@ -51,6 +50,17 @@ class Iniliq {
     }
 
     protected function rewrite_advanced_values( &$values ) {
+        foreach ( $values as $key => &$value ) {
+            if ( ! is_array( $value ) && \UString\is_start_with( $value, [ '[', '{' ] ) ) {
+                $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
+                if ( $array = json_decode( $json, TRUE ) ) {
+                    $value = $array;
+                }
+            }
+            if ( is_array( $value ) ) {
+                $this->rewrite_advanced_values( $value );
+            }
+        }
     }
 
     protected function parse_ini( $file ) {
