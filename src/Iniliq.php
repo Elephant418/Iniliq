@@ -18,8 +18,8 @@ class Iniliq {
         $result = $initialize;
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
-            $this->rewrite_advanced_values( $parsed );
-            $this->rewrite_advanced_selectors( $parsed );
+            $this->rewrite_json_values( $parsed );
+            $this->rewrite_array_selectors( $parsed );
             $this->merge_values( $result, $parsed );
         }
         return $result;
@@ -29,10 +29,24 @@ class Iniliq {
     /*************************************************************************
       PROTECTED METHODS                   
      *************************************************************************/
-    protected function rewrite_advanced_selectors( &$values ) {
+    protected function rewrite_json_values( &$values ) {
+        foreach ( $values as $key => &$value ) {
+            if ( ! is_array( $value ) && \UString\is_start_with( $value, [ '[', '{' ] ) ) {
+                $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
+                if ( $array = json_decode( $json, TRUE ) ) {
+                    $value = $array;
+                }
+            }
+            if ( is_array( $value ) ) {
+                $this->rewrite_json_values( $value );
+            }
+        }
+    }
+    
+    protected function rewrite_array_selectors( &$values ) {
         foreach ( $values as $key => &$value ) {
             if ( is_array( $value ) ) {
-                $this->rewrite_advanced_selectors( $value );
+                $this->rewrite_array_selectors( $value );
             }
             if ( \UString\has( $key, '.' ) ) {
                 $path = explode( '.', $key );
@@ -45,20 +59,6 @@ class Iniliq {
                 }
                 $current = $value;
                 unset( $values[ $key ] );
-            }
-        }
-    }
-
-    protected function rewrite_advanced_values( &$values ) {
-        foreach ( $values as $key => &$value ) {
-            if ( ! is_array( $value ) && \UString\is_start_with( $value, [ '[', '{' ] ) ) {
-                $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
-                if ( $array = json_decode( $json, TRUE ) ) {
-                    $value = $array;
-                }
-            }
-            if ( is_array( $value ) ) {
-                $this->rewrite_advanced_values( $value );
             }
         }
     }
