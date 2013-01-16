@@ -4,14 +4,14 @@ require_once( __DIR__ . '/../src/Iniliq.php' );
 
 $contents = [ ];
 $contents[ ] = <<<EOF
-// list.ini
+; list.ini
 [Readme]
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
 EOF;
 $contents[ ] = <<<EOF
-// adding-values.ini
+; adding-values.ini
 [Readme]
 musketeers.name += [ Aramis ]
 EOF;

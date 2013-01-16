@@ -4,13 +4,13 @@ require_once( __DIR__ . '/../src/Iniliq.php' );
 
 $contents = [ ];
 $contents[ ] = <<<EOF
-// base.ini
+; base.ini
 [Readme]
 example[name] = John Doe
 example[id] = 3
 EOF;
 $contents[ ] = <<<EOF
-// file-inheritance.ini
+; file-inheritance.ini
 [Readme]
 example.name = file-inheritance
 EOF;

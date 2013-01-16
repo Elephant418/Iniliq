@@ -4,11 +4,13 @@ Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png)](http:
 An ini parser for inherited values through multiple configuration files
 
 1. [Let's code](#lets-code)
+
 1.1 [Json Values](#json-values)
 1.2 [Deep selectors](#deep-selectors)
 1.3 [File inheritance](#file-inheritance)
 1.4 [Adding values](#adding-values)
 1.5 [Removing values](#removing-values)
+
 2. [How to Install](#how-to-install)
 3. [How to Contribute](#how-to-contribute)
 4. [Author & Community](#author--community)
@@ -28,76 +30,92 @@ example = { json: yeah, is-it: [ good, great, awesome ] }
 
 ```php
 $ini = ( new \Pixel418\Iniliq )->parse( 'json-values.ini' );
-// Returns [ 'Readme' => [ 'example' => [ 'json' => 'yeah', 'is-it' => [ 'good', 'great', 'awesome' ] ] ] ]
+// [ 'Readme' => [ 'example' => [ 'json' => 'yeah', 'is-it' => [ 'good', 'great', 'awesome' ] ] ] ]
 ```
+
+[&uarr; top](#readme)
+
+
 
 ### Deep selectors
 
 ```ini
-// deep-selectors.ini
+; deep-selectors.ini
 [Readme]
 example.selectors.deep = nice
 ```
 
 ```php
 $ini = ( new \Pixel418\Iniliq )->parse( 'deep-selectors.ini' );
-// Returns [ 'Readme' => [ 'example' => [ 'selectors' => [ 'deep' => 'nice' ] ] ]
+// [ 'Readme' => [ 'example' => [ 'selectors' => [ 'deep' => 'nice' ] ] ]
 ```
+
+[&uarr; top](#readme)
+
+
 
 ### File inheritance
 
 ```ini
-// base.ini
+; base.ini
 [Readme]
 example[name] = John Doe
 example[id] = 3
 
-// file-inheritance.ini
+; file-inheritance.ini
 [Readme]
 example.name = file-inheritance
 ```
 
 ```php
 $ini = ( new \Pixel418\Iniliq )->parse( [ 'base.ini', 'file-inheritance.ini' ] );
-// Returns [ 'Readme' => [ 'example' => [ 'name' => 'file-inheritance', 'id' => '3' ] ] ]
+// [ 'Readme' => [ 'example' => [ 'name' => 'file-inheritance', 'id' => '3' ] ] ]
 ```
+
+[&uarr; top](#readme)
+
+
 
 ### Adding values
 
 ```ini
-// list.ini
+; list.ini
 [Readme]
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
 
-// adding-values.ini
+; adding-values.ini
 [Readme]
 musketeers.name += [ Aramis ]
 ```
 
 ```php
 $ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'adding-values.ini' ] );
-// Returns [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos', 'D\'Artagnan', 'Aramis' ] ] ]
+// [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos', 'D\'Artagnan', 'Aramis' ] ] ]
 ```
+
+[&uarr; top](#readme)
+
+
 
 ### Removing values
 
 ```ini
-// list.ini
+; list.ini
 [Readme]
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
 
-// removing-values.ini
+; removing-values.ini
 [Readme]
 musketeers.name -= "[ D'Artagnan ]"
 ```
 
 ```php
 $ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'removing-values.ini' ] );
-// Returns [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos' ] ] ]
+// [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos' ] ] ]
 ```
 
 [&uarr; top](#readme)
