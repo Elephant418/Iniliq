@@ -23,7 +23,7 @@ class Parser {
             $this->rewrite_deep_selectors( $parsed );
             $this->merge_values( $result, $parsed );
         }
-        return $result;
+        return new Result( $result );
     }
 
 
@@ -61,16 +61,8 @@ class Parser {
             if ( is_array( $value ) ) {
                 $this->rewrite_deep_selectors( $value );
             }
-            if ( \UString::has( $key, '.' ) ) {
-                $path = explode( '.', $key );
-                $current =& $values;
-                while ( ( $current_key = array_shift( $path ) ) ) {
-                    if ( ! isset( $current[ $current_key ] ) ) {
-                        $current[ $current_key ] = [ ];
-                    }
-                    $current =& $current[ $current_key ];
-                }
-                $current = $value;
+            if ( \Pixel418\Iniliq::is_deep_selector( $key ) ) {
+                $values = \Pixel418\Iniliq::set_deep_selector( $values, $key, $value );
                 unset( $values[ $key ] );
             }
         }
