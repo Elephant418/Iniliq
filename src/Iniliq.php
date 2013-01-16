@@ -15,7 +15,10 @@ class Iniliq {
      *************************************************************************/
     public function parse( $files, $initialize = [ ] ) {
         \UArray\do_convert_to_array( $files );
-        $result = $initialize;
+        $result = [ ];
+        if ( is_array( $initialize ) ) {
+            array_unshift( $files, $initialize );
+        }
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
             $this->rewrite_json_values( $parsed );
@@ -29,6 +32,18 @@ class Iniliq {
     /*************************************************************************
       PROTECTED METHODS                   
      *************************************************************************/
+    protected function parse_ini( $file ) {
+        $parsed = [ ];
+        if ( is_array( $file ) ) {
+            $parsed = $file;
+        } else if ( \UString\has( $file, PHP_EOL ) ) {
+                $parsed = parse_ini_string( $file, TRUE );
+        } else {
+            $parsed = parse_ini_file( $file, TRUE );
+        }
+        return $parsed;
+    }
+
     protected function rewrite_json_values( &$values ) {
         foreach ( $values as $key => &$value ) {
             if ( ! is_array( $value ) && \UString\is_start_with( $value, [ '[', '{' ] ) ) {
@@ -63,33 +78,23 @@ class Iniliq {
         }
     }
 
-    protected function parse_ini( $file ) {
-        $parsed = [ ];
-        if ( \UString\has( $file, PHP_EOL ) ) {
-                $parsed = parse_ini_string( $file, TRUE );
-        } else {
-            $parsed = parse_ini_file( $file, TRUE );
-        }
-        return $parsed;
-    }
-
     protected function merge_values( &$reference, $values ) {
         foreach ( $values as $key => $value ) {
             if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
                 $key = preg_replace( '/\s*\+\s*$/', '', $key );
-                $this->append_values( $reference[ $key ], $value );
+                $this->merge_values_by_appending( $reference[ $key ], $value );
             } else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
                 $key = preg_replace( '/\s*-\s*$/', '', $key );
-                $this->remove_value( $reference[ $key ], $value );
+                $this->merge_values_by_removing( $reference[ $key ], $value );
             } else if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
                 $this->merge_values( $reference[ $key ], $value );
             } else {
-                $this->replace_value( $reference[ $key ], $value );
+                $this->merge_values_by_replacing( $reference[ $key ], $value );
             }
         }
     }
 
-    protected function append_values( &$reference, $values ) {
+    protected function merge_values_by_appending( &$reference, $values ) {
         \UArray\do_convert_to_array( $reference );
         \UArray\do_convert_to_array( $values );
         foreach ( $values as $key => $value ) {
@@ -101,7 +106,7 @@ class Iniliq {
         }
     }
 
-    protected function remove_value( &$reference, $values ) {
+    protected function merge_values_by_removing( &$reference, $values ) {
         \UArray\do_convert_to_array( $reference );
         \UArray\do_convert_to_array( $values );
         foreach ( $values as $value ) {
@@ -118,7 +123,7 @@ class Iniliq {
         }
     }
 
-    protected function replace_value( &$reference, $value ) {
+    protected function merge_values_by_replacing( &$reference, $value ) {
         $reference = $value;
     }
 }

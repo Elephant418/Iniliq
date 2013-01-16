@@ -98,6 +98,11 @@ class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 
 
 	// FILE WITH DEEP SELECTORS
+	public function test_parsing_deep_selectors( ) {
+		$ini  = ( new \Pixel418\Iniliq )->parse( [ ], [ 'person.creator.name' => 'Thomas', 'person.creator.role' => [ 'Developer' ] ] );
+		$this->assertEquals( $ini, [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ] );
+	}
+
 	public function test_parsing_a_file_with_deep_selectors( ) {
 		$file = realpath( __DIR__ . '/../resource/deep-selector.ini' );
 		$ini  = ( new \Pixel418\Iniliq )->parse( $file );
@@ -107,6 +112,11 @@ class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 
 
 	// FILE WITH JSON VALUES
+	public function test_parsing_json_values( ) {
+		$ini  = ( new \Pixel418\Iniliq )->parse( [ ], [ 'person.creator' => '{ name: Thomas, role: [ Developer ] }' ] );
+		$this->assertEquals( $ini, [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ] );
+	}
+
 	public function test_parsing_a_file_with_json_values( ) {
 		$file = realpath( __DIR__ . '/../resource/json-value.ini' );
 		$ini  = ( new \Pixel418\Iniliq )->parse( $file );
