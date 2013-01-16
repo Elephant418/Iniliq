@@ -13,7 +13,12 @@
         }
     ],
     "require": {
-        "pixel418/ubiq": "0.2.*",
+        "pixel418/ubiq": "0.3.0",
         "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Pixel418\\Iniliq": "src/"
+        }
     }
 }

@@ -15,7 +15,7 @@ $contents[ ] = <<<EOF
 example.name = file-inheritance
 EOF;
 
-$ini = ( new \Pixel418\Iniliq )->parse( $contents );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
 print_r( $ini );
 
 ?>
