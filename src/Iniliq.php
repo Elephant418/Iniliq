@@ -19,7 +19,7 @@ class Iniliq {
         foreach ( $files as $file ) {
             $parsed = $this->parse_ini( $file );
             $this->rewrite_json_values( $parsed );
-            $this->rewrite_array_selectors( $parsed );
+            $this->rewrite_deep_selectors( $parsed );
             $this->merge_values( $result, $parsed );
         }
         return $result;
@@ -43,10 +43,10 @@ class Iniliq {
         }
     }
 
-    protected function rewrite_array_selectors( &$values ) {
+    protected function rewrite_deep_selectors( &$values ) {
         foreach ( $values as $key => &$value ) {
             if ( is_array( $value ) ) {
-                $this->rewrite_array_selectors( $value );
+                $this->rewrite_deep_selectors( $value );
             }
             if ( \UString\has( $key, '.' ) ) {
                 $path = explode( '.', $key );
@@ -126,6 +126,8 @@ class Iniliq {
 if ( ! defined( 'Pixel418\\VENDOR_ROOT_PATH' ) ) {
     if ( $pos = strrpos( __DIR__, '/vendor/' ) ) {
         define( 'Pixel418\\VENDOR_ROOT_PATH', substr( __DIR__, 0, $pos ) . '/vendor/' );
+    } else {
+        define( 'Pixel418\\VENDOR_ROOT_PATH', dirname( __DIR__ ) . '/vendor/' );
     }
 }
 require_once( \Pixel418\VENDOR_ROOT_PATH . 'pixel418/ubiq/src/Ubiq.php' );
