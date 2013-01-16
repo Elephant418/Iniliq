@@ -136,17 +136,17 @@ Add or complete the composer.json file at the root of your project, like this :
 ```json
 {
     "require": {
-        "pixel418/iniliq": "0.1.2"
+        "pixel418/iniliq": "0.1.3"
     }
 }
 ```
 
 Iniliq can now be [downloaded via composer](http://getcomposer.org/doc/01-basic-usage.md#installing-dependencies).
 
-The last step is to include it in your PHP file :
+Lastly, to use it in your PHP, you can load the composer autoloader :
 
 ```php
-require_once( './vendor/pixel418/iniliq/src/Iniliq.php' );
+require_once( './vendor/autoload.php' );
 ```
 
 [&uarr; top](#readme)
