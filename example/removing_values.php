@@ -1,22 +1,23 @@
 <?php
 
-require_once( __DIR__ . '/../src/Iniliq.php' );
+require_once( __DIR__ . '/../vendor/autoload.php' );
 
 $contents = [ ];
-$contents[ ] = <<<EOF
-; list.ini
+
+$contents[ 'list.ini' ] = <<<EOF
 [Readme]
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
 EOF;
-$contents[ ] = <<<EOF
-; removing-values.ini
+
+$contents[ 'removing-values.ini' ] = <<<EOF
 [Readme]
 musketeers.name -= "[ D'Artagnan ]"
 EOF;
 
-$ini = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
-print_r( $ini );
+$result = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
+
+include( __DIR__ . '/_output.php' );
 
 ?>

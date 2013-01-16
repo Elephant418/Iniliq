@@ -1,21 +1,22 @@
 <?php
 
-require_once( __DIR__ . '/../src/Iniliq.php' );
+require_once( __DIR__ . '/../vendor/autoload.php' );
 
 $contents = [ ];
-$contents[ ] = <<<EOF
-; base.ini
+
+$contents[ 'base.ini' ] = <<<EOF
 [Readme]
 example[name] = John Doe
 example[id] = 3
 EOF;
-$contents[ ] = <<<EOF
-; file-inheritance.ini
+
+$contents[ 'file-inheritance.ini' ] = <<<EOF
 [Readme]
 example.name = file-inheritance
 EOF;
 
-$ini = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
-print_r( $ini );
+$result = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
+
+include( __DIR__ . '/_output.php' );
 
 ?>
