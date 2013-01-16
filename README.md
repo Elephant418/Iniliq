@@ -114,7 +114,7 @@ Add or complete the composer.json file at the root of your project, like this :
 ```json
 {
     "require": {
-        "pixel418/iniliq": "0.1"
+        "pixel418/iniliq": "0.1.1"
     }
 }
 ```
