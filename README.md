@@ -27,7 +27,7 @@ example = { json: yeah, is-it: [ good, great, awesome ] }
 ```
 
 ```php
-$ini = ( new \Pixel418\Iniliq )->parse( 'json-values.ini' );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( 'json-values.ini' );
 // [ 'Readme' => [ 'example' => [ 'json' => 'yeah', 'is-it' => [ 'good', 'great', 'awesome' ] ] ] ]
 ```
 
@@ -44,7 +44,7 @@ example.selectors.deep = nice
 ```
 
 ```php
-$ini = ( new \Pixel418\Iniliq )->parse( 'deep-selectors.ini' );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( 'deep-selectors.ini' );
 // [ 'Readme' => [ 'example' => [ 'selectors' => [ 'deep' => 'nice' ] ] ]
 ```
 
@@ -68,7 +68,7 @@ example.name = file-inheritance
 ```
 
 ```php
-$ini = ( new \Pixel418\Iniliq )->parse( [ 'base.ini', 'file-inheritance.ini' ] );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( [ 'base.ini', 'file-inheritance.ini' ] );
 // [ 'Readme' => [ 'example' => [ 'name' => 'file-inheritance', 'id' => '3' ] ] ]
 ```
 
@@ -93,7 +93,7 @@ musketeers.name += [ Aramis ]
 ```
 
 ```php
-$ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'adding-values.ini' ] );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( [ 'list.ini', 'adding-values.ini' ] );
 // [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos', 'D\'Artagnan', 'Aramis' ] ] ]
 ```
 
@@ -118,7 +118,7 @@ musketeers.name -= "[ D'Artagnan ]"
 ```
 
 ```php
-$ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'removing-values.ini' ] );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( [ 'list.ini', 'removing-values.ini' ] );
 // [ 'Readme' => [ 'musketeers' => [ 'Athos', 'Porthos' ] ] ]
 ```
 
@@ -136,7 +136,7 @@ Add or complete the composer.json file at the root of your project, like this :
 ```json
 {
     "require": {
-        "pixel418/iniliq": "0.1.1"
+        "pixel418/iniliq": "0.1.2"
     }
 }
 ```

@@ -16,7 +16,7 @@ $contents[ ] = <<<EOF
 musketeers.name -= "[ D'Artagnan ]"
 EOF;
 
-$ini = ( new \Pixel418\Iniliq )->parse( $contents );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
 print_r( $ini );
 
 ?>

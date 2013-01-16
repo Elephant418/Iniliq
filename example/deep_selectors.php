@@ -7,7 +7,7 @@ $content = <<<EOF
 example.selectors.deep = nice
 EOF;
 
-$ini = ( new \Pixel418\Iniliq )->parse( $content );
+$ini = ( new \Pixel418\Iniliq\Parser )->parse( $content );
 print_r( $ini );
 
 ?>

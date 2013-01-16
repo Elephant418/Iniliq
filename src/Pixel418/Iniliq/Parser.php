@@ -2,19 +2,17 @@
 
 /* This file is part of the Iniliq project, which is under MIT license */
 
-namespace Pixel418;
+namespace Pixel418\Iniliq;
 
 
-class Iniliq {
-
-    const VERSION = '0.1.1';
+class Parser {
 
 
     /*************************************************************************
       PUBLIC METHODS                   
      *************************************************************************/
     public function parse( $files, $initialize = [ ] ) {
-        \UArray\do_convert_to_array( $files );
+        \UArray::do_convert_to_array( $files );
         $result = [ ];
         if ( is_array( $initialize ) ) {
             array_unshift( $files, $initialize );
@@ -36,7 +34,7 @@ class Iniliq {
         $parsed = [ ];
         if ( is_array( $file ) ) {
             $parsed = $file;
-        } else if ( \UString\has( $file, PHP_EOL ) ) {
+        } else if ( \UString::has( $file, PHP_EOL ) ) {
                 $parsed = parse_ini_string( $file, TRUE );
         } else {
             $parsed = parse_ini_file( $file, TRUE );
@@ -46,7 +44,7 @@ class Iniliq {
 
     protected function rewrite_json_values( &$values ) {
         foreach ( $values as $key => &$value ) {
-            if ( ! is_array( $value ) && \UString\is_start_with( $value, [ '[', '{' ] ) ) {
+            if ( ! is_array( $value ) && \UString::is_start_with( $value, [ '[', '{' ] ) ) {
                 $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
                 if ( $array = json_decode( $json, TRUE ) ) {
                     $value = $array;
@@ -63,7 +61,7 @@ class Iniliq {
             if ( is_array( $value ) ) {
                 $this->rewrite_deep_selectors( $value );
             }
-            if ( \UString\has( $key, '.' ) ) {
+            if ( \UString::has( $key, '.' ) ) {
                 $path = explode( '.', $key );
                 $current =& $values;
                 while ( ( $current_key = array_shift( $path ) ) ) {
@@ -95,8 +93,8 @@ class Iniliq {
     }
 
     protected function merge_values_by_appending( &$reference, $values ) {
-        \UArray\do_convert_to_array( $reference );
-        \UArray\do_convert_to_array( $values );
+        \UArray::do_convert_to_array( $reference );
+        \UArray::do_convert_to_array( $values );
         foreach ( $values as $key => $value ) {
             if ( is_numeric( $key ) ) {
                 $reference[ ] = $value;
@@ -107,8 +105,8 @@ class Iniliq {
     }
 
     protected function merge_values_by_removing( &$reference, $values ) {
-        \UArray\do_convert_to_array( $reference );
-        \UArray\do_convert_to_array( $values );
+        \UArray::do_convert_to_array( $reference );
+        \UArray::do_convert_to_array( $values );
         foreach ( $values as $value ) {
             $keys = array_keys( $reference, $value );
             foreach( $keys as $key ) {
@@ -135,4 +133,3 @@ if ( ! defined( 'Pixel418\\VENDOR_ROOT_PATH' ) ) {
         define( 'Pixel418\\VENDOR_ROOT_PATH', dirname( __DIR__ ) . '/vendor/' );
     }
 }
-require_once( \Pixel418\VENDOR_ROOT_PATH . 'pixel418/ubiq/src/Ubiq.php' );
