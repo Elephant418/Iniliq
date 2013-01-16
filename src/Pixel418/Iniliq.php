@@ -12,7 +12,7 @@ class Iniliq {
     	return ( \UString::has( $selector, '.' ) );
     }
 
-    public static function has_deep_selector( &$array, $selector ) {
+    public static function has_deep_selector( $array, $selector ) {
         return static::deep_selector( $array, $selector, function( &$current, $current_key ) {
         	return FALSE;
         }, function ( &$current, $current_key ) use ( &$array ) {
@@ -20,7 +20,7 @@ class Iniliq {
         } );
     }
 
-    public static function get_deep_selector( &$array, $selector ) {
+    public static function get_deep_selector( $array, $selector ) {
         return static::deep_selector( $array, $selector, function( &$current, $current_key ) {
         	return NULL;
         }, function ( &$current, $current_key ) use ( &$array ) {
