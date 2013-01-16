@@ -35,51 +35,57 @@ class Parser {
         if ( is_array( $file ) ) {
             $parsed = $file;
         } else if ( \UString::has( $file, PHP_EOL ) ) {
-                $parsed = parse_ini_string( $file, TRUE );
-        } else {
+            $parsed = parse_ini_string( $file, TRUE );
+        } else if ( is_file( $file ) ) {
             $parsed = parse_ini_file( $file, TRUE );
         }
         return $parsed;
     }
 
     protected function rewrite_json_values( &$values ) {
-        foreach ( $values as $key => &$value ) {
-            if ( ! is_array( $value ) && \UString::is_start_with( $value, [ '[', '{' ] ) ) {
-                $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
-                if ( $array = json_decode( $json, TRUE ) ) {
-                    $value = $array;
+        if ( is_array( $values ) ) {
+            foreach ( $values as $key => &$value ) {
+                if ( ! is_array( $value ) && \UString::is_start_with( $value, [ '[', '{' ] ) ) {
+                    $json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
+                    if ( $array = json_decode( $json, TRUE ) ) {
+                        $value = $array;
+                    }
                 }
-            }
-            if ( is_array( $value ) ) {
-                $this->rewrite_json_values( $value );
+                if ( is_array( $value ) ) {
+                    $this->rewrite_json_values( $value );
+                }
             }
         }
     }
 
     protected function rewrite_deep_selectors( &$values ) {
-        foreach ( $values as $key => &$value ) {
-            if ( is_array( $value ) ) {
-                $this->rewrite_deep_selectors( $value );
-            }
-            if ( \Pixel418\Iniliq::is_deep_selector( $key ) ) {
-                $values = \Pixel418\Iniliq::set_deep_selector( $values, $key, $value );
-                unset( $values[ $key ] );
+        if ( is_array( $values ) ) {
+            foreach ( $values as $key => &$value ) {
+                if ( is_array( $value ) ) {
+                    $this->rewrite_deep_selectors( $value );
+                }
+                if ( \Pixel418\Iniliq::is_deep_selector( $key ) ) {
+                    $values = \Pixel418\Iniliq::set_deep_selector( $values, $key, $value );
+                    unset( $values[ $key ] );
+                }
             }
         }
     }
 
     protected function merge_values( &$reference, $values ) {
-        foreach ( $values as $key => $value ) {
-            if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
-                $key = preg_replace( '/\s*\+\s*$/', '', $key );
-                $this->merge_values_by_appending( $reference[ $key ], $value );
-            } else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
-                $key = preg_replace( '/\s*-\s*$/', '', $key );
-                $this->merge_values_by_removing( $reference[ $key ], $value );
-            } else if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
-                $this->merge_values( $reference[ $key ], $value );
-            } else {
-                $this->merge_values_by_replacing( $reference[ $key ], $value );
+        if ( is_array( $values ) ) {
+            foreach ( $values as $key => $value ) {
+                if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
+                    $key = preg_replace( '/\s*\+\s*$/', '', $key );
+                    $this->merge_values_by_appending( $reference[ $key ], $value );
+                } else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
+                    $key = preg_replace( '/\s*-\s*$/', '', $key );
+                    $this->merge_values_by_removing( $reference[ $key ], $value );
+                } else if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
+                    $this->merge_values( $reference[ $key ], $value );
+                } else {
+                    $this->merge_values_by_replacing( $reference[ $key ], $value );
+                }
             }
         }
     }
@@ -115,13 +121,5 @@ class Parser {
 
     protected function merge_values_by_replacing( &$reference, $value ) {
         $reference = $value;
-    }
-}
-
-if ( ! defined( 'Pixel418\\VENDOR_ROOT_PATH' ) ) {
-    if ( $pos = strrpos( __DIR__, '/vendor/' ) ) {
-        define( 'Pixel418\\VENDOR_ROOT_PATH', substr( __DIR__, 0, $pos ) . '/vendor/' );
-    } else {
-        define( 'Pixel418\\VENDOR_ROOT_PATH', dirname( __DIR__ ) . '/vendor/' );
     }
 }
