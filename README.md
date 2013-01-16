@@ -46,6 +46,12 @@ example.selectors.deep = nice
 ```php
 $ini = ( new \Pixel418\Iniliq\Parser )->parse( 'deep-selectors.ini' );
 // [ 'Readme' => [ 'example' => [ 'selectors' => [ 'deep' => 'nice' ] ] ]
+echo get_class( $ini );
+// Pixel418\Iniliq\Result
+$ini[ 'Readme.example.selectors.deep' ]
+// nice
+$ini[ 'Readme.example.selectors.deep' ] = 'amusing'
+// [ 'Readme' => [ 'example' => [ 'selectors' => [ 'deep' => 'amusing' ] ] ]
 ```
 
 [&uarr; top](#readme)
