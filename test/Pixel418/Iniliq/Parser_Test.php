@@ -15,6 +15,11 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
     /*************************************************************************
       SIMPLE INI TESTS                   
      *************************************************************************/
+	public function test_parsing_empty( ) {
+		$ini  = ( new Parser )->parse( '' );
+		$this->assertEquals( $ini->to_array( ), [ ] );
+	}
+
 	public function test_parsing_a_simple_file( ) {
 		$file = realpath( __DIR__ . '/../../resource/simple.ini' );
 		$ini  = ( new Parser )->parse( $file );
