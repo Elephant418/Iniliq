@@ -3,14 +3,12 @@ Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png)](http:
 
 An ini parser for inherited values through multiple configuration files
 
-1. [Let's code](#lets-code)
-
-1.1 [Json Values](#json-values)
-1.2 [Deep selectors](#deep-selectors)
-1.3 [File inheritance](#file-inheritance)
-1.4 [Adding values](#adding-values)
-1.5 [Removing values](#removing-values)
-
+1. [Let's code](#lets-code)  
+1.1 [Json Values](#json-values)  
+1.2 [Deep selectors](#deep-selectors)  
+1.3 [File inheritance](#file-inheritance)  
+1.4 [Appending](#appending)  
+1.5 [Reducing](#reducing)
 2. [How to Install](#how-to-install)
 3. [How to Contribute](#how-to-contribute)
 4. [Author & Community](#author--community)
@@ -23,7 +21,7 @@ Let's code
 ### Json values
 
 ```ini
-// json-values.ini
+; json-values.ini
 [Readme]
 example = { json: yeah, is-it: [ good, great, awesome ] }
 ```
@@ -61,7 +59,9 @@ $ini = ( new \Pixel418\Iniliq )->parse( 'deep-selectors.ini' );
 [Readme]
 example[name] = John Doe
 example[id] = 3
+```
 
+```ini
 ; file-inheritance.ini
 [Readme]
 example.name = file-inheritance
@@ -76,7 +76,7 @@ $ini = ( new \Pixel418\Iniliq )->parse( [ 'base.ini', 'file-inheritance.ini' ] )
 
 
 
-### Adding values
+### Appending
 
 ```ini
 ; list.ini
@@ -84,7 +84,9 @@ $ini = ( new \Pixel418\Iniliq )->parse( [ 'base.ini', 'file-inheritance.ini' ] )
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
+```
 
+```ini
 ; adding-values.ini
 [Readme]
 musketeers.name += [ Aramis ]
@@ -99,7 +101,7 @@ $ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'adding-values.ini' ] );
 
 
 
-### Removing values
+### Reducing
 
 ```ini
 ; list.ini
@@ -107,7 +109,9 @@ $ini = ( new \Pixel418\Iniliq )->parse( [ 'list.ini', 'adding-values.ini' ] );
 musketeers.name[ ] = Athos
 musketeers.name[ ] = Porthos
 musketeers.name[ ] = "D'Artagnan"
+```
 
+```ini
 ; removing-values.ini
 [Readme]
 musketeers.name -= "[ D'Artagnan ]"
