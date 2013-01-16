@@ -6,6 +6,8 @@ use \Pixel418\Iniliq\Parser as Parser;
 
 require_once( __DIR__ . '/../../vendor/autoload.php' );
 
+echo 'Iniliq ' . \Pixel418\Iniliq::VERSION . ' tested with ';
+
 class Iniliq_Test extends \PHPUnit_Framework_TestCase {
 
 
