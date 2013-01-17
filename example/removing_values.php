@@ -13,7 +13,7 @@ EOF;
 
 $contents[ 'removing-values.ini' ] = <<<EOF
 [Readme]
-musketeers.name -= "[ D'Artagnan ]"
+musketeers.name -= "D'Artagnan"
 EOF;
 
 $result = ( new \Pixel418\Iniliq\Parser )->parse( $contents );

@@ -22,6 +22,7 @@ class Parser {
 			$this->rewrite_json_values( $parsed );
 			$this->rewrite_deep_selectors( $parsed );
 			$this->merge_values( $result, $parsed );
+			$this->rewrite_appending_selectors( $result );
 		}
 		return new Result( $result );
 	}
@@ -75,13 +76,7 @@ class Parser {
 	protected function merge_values( &$reference, $values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
-				if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
-					$key = preg_replace( '/\s*\+\s*$/', '', $key );
-					$this->merge_values_by_appending( $reference[ $key ], $value );
-				} else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
-					$key = preg_replace( '/\s*-\s*$/', '', $key );
-					$this->merge_values_by_removing( $reference[ $key ], $value );
-				} else if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
+				if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
 					$this->merge_values( $reference[ $key ], $value );
 				} else {
 					$this->merge_values_by_replacing( $reference[ $key ], $value );
@@ -90,10 +85,33 @@ class Parser {
 		}
 	}
 
-	protected function merge_values_by_appending( &$reference, $values ) {
+	protected function merge_values_by_replacing( &$reference, $value ) {
+		$reference = $value;
+	}
+
+	protected function rewrite_appending_selectors( &$values ) {
+		if ( is_array( $values ) ) {
+			foreach ( $values as $key => &$value ) {
+				if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
+					$this->appending_values( $values, $key );
+				} else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
+					$this->removing_values( $values, $key );
+				}
+				if ( is_array( $value ) ) {
+					$this->rewrite_appending_selectors( $value );
+				}
+			}
+		}
+	}
+
+	protected function appending_values( &$values, $key ) {
+		$reference_key = preg_replace( '/\s*\+\s*$/', '', $key );
+		$reference =& $values[ $reference_key ];
+		$append = $values[ $key ];
+		unset( $values[ $key ] );
 		\UArray::do_convert_to_array( $reference );
-		\UArray::do_convert_to_array( $values );
-		foreach ( $values as $key => $value ) {
+		\UArray::do_convert_to_array( $append );
+		foreach ( $append as $key => $value ) {
 			if ( is_numeric( $key ) ) {
 				$reference[ ] = $value;
 			} else {
@@ -102,24 +120,22 @@ class Parser {
 		}
 	}
 
-	protected function merge_values_by_removing( &$reference, $values ) {
+	protected function removing_values( &$values, $key ) {
+		$reference_key = preg_replace( '/\s*-\s*$/', '', $key );
+		$reference =& $values[ $reference_key ];
+		$remove = $values[ $key ];
+		unset( $values[ $key ] );
 		\UArray::do_convert_to_array( $reference );
-		\UArray::do_convert_to_array( $values );
-		foreach ( $values as $value ) {
+		\UArray::do_convert_to_array( $remove );
+		foreach ( $remove as $value ) {
 			$keys = array_keys( $reference, $value );
 			foreach( $keys as $key ) {
-				if ( $key !== FALSE ) {
-					if ( is_numeric( $key ) ) {
-						array_splice( $reference, $key, 1 );
-					} else {
-						unset( $reference[ $key ] );
-					}
+				if ( is_numeric( $key ) ) {
+					array_splice( $reference, $key, 1 );
+				} else {
+					unset( $reference[ $key ] );
 				}
 			}
 		}
-	}
-
-	protected function merge_values_by_replacing( &$reference, $value ) {
-		$reference = $value;
 	}
 }

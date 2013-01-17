@@ -13,7 +13,7 @@ EOF;
 
 $contents[ 'adding-values.ini' ] = <<<EOF
 [Readme]
-musketeers.name += [ Aramis ]
+musketeers.name += Aramis
 EOF;
 
 $result = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
