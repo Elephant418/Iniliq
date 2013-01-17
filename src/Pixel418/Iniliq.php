@@ -6,7 +6,7 @@ namespace Pixel418;
 
 class Iniliq {
 
-	const VERSION  = '0.1.5';
+	const VERSION  = '0.1.6';
 
 	public static function is_deep_selector( $selector ) {
 		return ( \UString::has( $selector, '.' ) );
