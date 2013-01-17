@@ -4,15 +4,15 @@ namespace Test\Pixel418\Iniliq;
 
 use \Pixel418\Iniliq\Result as Result;
 
-require_once( __DIR__ . '/../../../vendor/autoload.php' );
+require_once( __DIR__ . '/../../../../vendor/autoload.php' );
 
 class Result_Test extends \PHPUnit_Framework_TestCase {
 
 
 
-    /*************************************************************************
-      DEEP SELECTOR TESTS
-     *************************************************************************/
+	/*************************************************************************
+	  DEEP SELECTOR TESTS
+	 *************************************************************************/
 	public function test_deep_selector__set__match( ) {
 		$array = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
 		$result = new Result( $array );
@@ -64,9 +64,9 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 
 
 
-    /*************************************************************************
-      GETTER FORMATED TESTS
-     *************************************************************************/
+	/*************************************************************************
+	  GETTER FORMATED TESTS
+	 *************************************************************************/
 	public function test_getter_formated__boolean__true( ) {
 		$array = [ 'boolean' => TRUE ];
 		$result = new Result( $array );

@@ -18,7 +18,8 @@
     },
     "autoload": {
         "psr-0": {
-            "Pixel418\\Iniliq": "src/"
+            "Pixel418\\Iniliq": "src/",
+            "Test\\Pixel418\\Iniliq": "test/"
         }
     }
 }
