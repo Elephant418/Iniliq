@@ -28,7 +28,7 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__get__match( ) {
 		$array = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
 		$result = new Result( $array );
-		$this->assertEquals( $result[ 'person.creator.name' ], 'Thomas' );
+		$this->assertEquals( 'Thomas', $result[ 'person.creator.name' ] );
 	}
 
 	public function test_deep_selector__get__no_match( ) {
@@ -43,7 +43,7 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 		$result[ 'person.creator.organization' ] = 'Pixel418';
 		$new_array = $result->to_array( );
 		$this->assertTrue( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
-		$this->assertEquals( $new_array[ 'person' ][ 'creator'][ 'organization' ], 'Pixel418' );
+		$this->assertEquals( 'Pixel418', $new_array[ 'person' ][ 'creator'][ 'organization' ] );
 	}
 
 	public function test_deep_selector__set__deep( ) {
@@ -51,7 +51,7 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 		$result[ 'person.creator.organization' ] = 'Pixel418';
 		$new_array = $result->to_array( );
 		$this->assertTrue( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
-		$this->assertEquals( $new_array[ 'person' ][ 'creator'][ 'organization' ], 'Pixel418' );
+		$this->assertEquals( 'Pixel418', $new_array[ 'person' ][ 'creator'][ 'organization' ] );
 	}
 
 	public function test_deep_selector__unset__match( ) {
@@ -112,7 +112,7 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 	public function test_getter_formated__constant__defined( ) {
 		$array = [ 'constant' => 'PHP_EOL' ];
 		$result = new Result( $array );
-		$this->assertEquals( $result->get_as_constant( 'constant' ), PHP_EOL );
+		$this->assertEquals( PHP_EOL, $result->get_as_constant( 'constant' ) );
 	}
 
 	public function test_getter_formated__constant__not_defined( ) {
@@ -124,6 +124,6 @@ class Result_Test extends \PHPUnit_Framework_TestCase {
 	public function test_getter_formated__constant__not_defined_with_default( ) {
 		$array = [ 'constant' => 'COCO' ];
 		$result = new Result( $array );
-		$this->assertEquals( $result->get_as_constant( 'constant', '0' ), 0);
+		$this->assertEquals( 0, $result->get_as_constant( 'constant', '0' ) );
 	}
 }
