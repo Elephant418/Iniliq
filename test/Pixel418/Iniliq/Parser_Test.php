@@ -12,9 +12,9 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 
 
 
-    /*************************************************************************
-      SIMPLE INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  SIMPLE INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_empty( ) {
 		$ini  = ( new Parser )->parse( '' );
 		$this->assertEquals( [ ], $ini->to_array( ) );
@@ -34,19 +34,19 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function test_parsing_a_simple_file_with_init_values( ) {
-		$file    = realpath( __DIR__ . '/../../resource/simple.ini' );
+		$file	= realpath( __DIR__ . '/../../resource/simple.ini' );
 		$files   = [ $file, $file ];
 		$default = [ 'default_value' => 'on' ];
-		$ini     = ( new Parser )->parse( $files, $default );
+		$ini	 = ( new Parser )->parse( $files, $default );
 		$assert  = array_merge( parse_ini_file( $file, TRUE ), $default ); 
 		$this->assertEquals( $assert, $ini->to_array( ) );
 	}
 
 
 
-    /*************************************************************************
-      LIST INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  LIST INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_a_file_with_list( ) {
 		$file = realpath( __DIR__ . '/../../resource/list.ini' );
 		$ini  = ( new Parser )->parse( $file );
@@ -62,9 +62,9 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 
 
 
-    /*************************************************************************
-      ADDING LIST INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  ADDING LIST INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_a_file_with_adding_list( ) {
 		$file = realpath( __DIR__ . '/../../resource/list-add.ini' );
 		$ini  = ( new Parser )->parse( $file );
@@ -79,18 +79,18 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function test_parsing_a_file_with_adding_list_to_another_one( ) {
-		$files    = [ ];
+		$files	= [ ];
 		$files[ ] = realpath( __DIR__ . '/../../resource/list.ini' );
 		$files[ ] = realpath( __DIR__ . '/../../resource/list-add.ini' );
-		$ini      = ( new Parser )->parse( $files );
+		$ini	  = ( new Parser )->parse( $files );
 		$this->assertEquals( [ 'extensions' => [ 'Extension1', 'Extension2', 'Extension3' ] ], $ini->to_array( ) );
 	}
 
 
 
-    /*************************************************************************
-      REMOVING LIST INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  REMOVING LIST INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_a_file_with_removing_list( ) {
 		$file = realpath( __DIR__ . '/../../resource/list-remove.ini' );
 		$ini  = ( new Parser )->parse( $file );
@@ -105,18 +105,18 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function test_parsing_a_file_with_removing_list_to_another_one( ) {
-		$files    = [ ];
+		$files	= [ ];
 		$files[ ] = realpath( __DIR__ . '/../../resource/list.ini' );
 		$files[ ] = realpath( __DIR__ . '/../../resource/list-remove.ini' );
-		$ini      = ( new Parser )->parse( $files );
+		$ini	  = ( new Parser )->parse( $files );
 		$this->assertEquals( [ 'extensions' => [ 'Extension2' ] ], $ini->to_array( ) );
 	}
 
 
 
-    /*************************************************************************
-      DEEP SELECTOR INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  DEEP SELECTOR INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_deep_selectors( ) {
 		$ini  = ( new Parser )->parse( [ ], [ 'person.creator.name' => 'Thomas', 'person.creator.role' => [ 'Developer' ] ] );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
@@ -132,9 +132,9 @@ class Parser_Test extends \PHPUnit_Framework_TestCase {
 
 
 
-    /*************************************************************************
-      JSON VALUE INI TESTS                   
-     *************************************************************************/
+	/*************************************************************************
+	  JSON VALUE INI TESTS				   
+	 *************************************************************************/
 	public function test_parsing_json_values( ) {
 		$ini  = ( new Parser )->parse( [ ], [ 'person.creator' => '{ name: Thomas, role: [ Developer ] }' ] );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
