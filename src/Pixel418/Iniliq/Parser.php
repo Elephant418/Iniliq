@@ -126,16 +126,6 @@ class Parser {
 		$remove = $values[ $key ];
 		unset( $values[ $key ] );
 		\UArray::do_convert_to_array( $reference );
-		\UArray::do_convert_to_array( $remove );
-		foreach ( $remove as $value ) {
-			$keys = array_keys( $reference, $value );
-			foreach( $keys as $key ) {
-				if ( is_numeric( $key ) ) {
-					array_splice( $reference, $key, 1 );
-				} else {
-					unset( $reference[ $key ] );
-				}
-			}
-		}
+		\UArray::do_remove_value( $reference, $remove );		
 	}
 }
