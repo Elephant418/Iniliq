@@ -8,7 +8,7 @@ require_once( __DIR__ . '/../../../../vendor/autoload.php' );
 
 echo 'Iniliq ' . \Pixel418\Iniliq::VERSION . ' tested with ';
 
-class Parser_Test extends \PHPUnit_Framework_TestCase {
+class ParserTest extends \PHPUnit_Framework_TestCase {
 
 
 
