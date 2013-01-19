@@ -5,7 +5,7 @@
 namespace Pixel418\Iniliq;
 
 
-class Result extends \ArrayObject {
+class ArrayObject extends \ArrayObject {
 
 
 

@@ -24,7 +24,7 @@ class Parser {
 			$this->merge_values( $result, $parsed );
 			$this->rewrite_appending_selectors( $result );
 		}
-		return new Result( $result );
+		return new ArrayObject( $result );
 	}
 
 
