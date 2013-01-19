@@ -126,4 +126,22 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$result = new ArrayObject( $array );
 		$this->assertEquals( 0, $result->get_as_constant( 'constant', '0' ) );
 	}
+
+	public function test_getter_formated__array__match( ) {
+		$array = [ 'array' => [ 'string' ] ];
+		$result = new ArrayObject( $array );
+		$this->assertEquals( [ 'string' ], $result->get_as_array( 'array' ) );
+	}
+
+	public function test_getter_formated__array__match_string( ) {
+		$array = [ 'array' => 'string' ];
+		$result = new ArrayObject( $array );
+		$this->assertEquals( [ 'string' ], $result->get_as_array( 'array' ) );
+	}
+
+	public function test_getter_formated__array__not_defined( ) {
+		$array = [ 'constant' => 'COCO' ];
+		$result = new ArrayObject( $array );
+		$this->assertEquals( [ ], $result->get_as_array( 'array' ) );
+	}
 }
