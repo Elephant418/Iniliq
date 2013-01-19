@@ -6,7 +6,7 @@ use \Pixel418\Iniliq\ArrayObject as ArrayObject;
 
 require_once( __DIR__ . '/../../../../vendor/autoload.php' );
 
-class Result_Test extends \PHPUnit_Framework_TestCase {
+class ArrayObject_Test extends \PHPUnit_Framework_TestCase {
 
 
 
