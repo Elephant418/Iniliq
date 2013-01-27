@@ -50,6 +50,10 @@ class ArrayObject extends \ArrayObject {
 		return \UArray::convert_to_array( $value );
 	}
 
+	public function get_as_list( $index, $default = [ ] ) {
+		return array_values( $this->get_as_array( $index, $default ) );
+	}
+
 
 
 	/*************************************************************************
@@ -63,8 +67,8 @@ class ArrayObject extends \ArrayObject {
 		return \Pixel418\Iniliq::get_deep_selector( $this->getArrayCopy( ), $index );
 	}
  
-	public function offsetSet( $index, $newval ) {
-		$new_array = \Pixel418\Iniliq::set_deep_selector( $this->getArrayCopy( ), $index, $newval );
+	public function offsetSet( $index, $new_val ) {
+		$new_array = \Pixel418\Iniliq::set_deep_selector( $this->getArrayCopy( ), $index, $new_val );
 		$this->exchangeArray( $new_array );
 	}
  
