@@ -1,7 +1,7 @@
 <?php
 
 if ( ! isset( $contents ) ) {
-	$contents = \UArray::convert_to_array( $content );
+	$contents = \UArray::convertToArray( $content );
 }
 
 echo PHP_EOL;

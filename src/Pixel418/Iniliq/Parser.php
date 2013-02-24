@@ -12,17 +12,17 @@ class Parser {
 	  PUBLIC METHODS				   
 	 *************************************************************************/
 	public function parse( $files, $initialize = [ ] ) {
-		\UArray::do_convert_to_array( $files );
+		\UArray::doConvertToArray( $files );
 		$result = [ ];
 		if ( is_array( $initialize ) ) {
 			array_unshift( $files, $initialize );
 		}
 		foreach ( $files as $file ) {
-			$parsed = $this->parse_ini( $file );
-			$this->rewrite_json_values( $parsed );
-			$this->rewrite_deep_selectors( $parsed );
-			$this->merge_values( $result, $parsed );
-			$this->rewrite_appending_selectors( $result );
+			$parsed = $this->parseIni( $file );
+			$this->rewriteJsonValues( $parsed );
+			$this->rewriteDeepSelectors( $parsed );
+			$this->mergeValues( $result, $parsed );
+			$this->rewriteAppendingSelectors( $result );
 		}
 		return new ArrayObject( $result );
 	}
@@ -31,7 +31,7 @@ class Parser {
 	/*************************************************************************
 	  PROTECTED METHODS				   
 	 *************************************************************************/
-	protected function parse_ini( $file ) {
+	protected function parseIni( $file ) {
 		$parsed = [ ];
 		if ( is_array( $file ) ) {
 			$parsed = $file;
@@ -43,74 +43,74 @@ class Parser {
 		return $parsed;
 	}
 
-	protected function rewrite_json_values( &$values ) {
+	protected function rewriteJsonValues( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
-				if ( ! is_array( $value ) && \UString::is_start_with( $value, [ '[', '{' ] ) ) {
+				if ( ! is_array( $value ) && \UString::isStartWith( $value, [ '[', '{' ] ) ) {
 					$json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
 					if ( $array = json_decode( $json, TRUE ) ) {
 						$value = $array;
 					}
 				}
 				if ( is_array( $value ) ) {
-					$this->rewrite_json_values( $value );
+					$this->rewriteJsonValues( $value );
 				}
 			}
 		}
 	}
 
-	protected function rewrite_deep_selectors( &$values ) {
+	protected function rewriteDeepSelectors( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
 				if ( is_array( $value ) ) {
-					$this->rewrite_deep_selectors( $value );
+					$this->rewriteDeepSelectors( $value );
 				}
-				if ( \Pixel418\Iniliq::is_deep_selector( $key ) ) {
-					$values = \Pixel418\Iniliq::set_deep_selector( $values, $key, $value );
+				if ( \Pixel418\Iniliq::isDeepSelector( $key ) ) {
+					$values = \Pixel418\Iniliq::setDeepSelector( $values, $key, $value );
 					unset( $values[ $key ] );
 				}
 			}
 		}
 	}
 
-	protected function merge_values( &$reference, $values ) {
+	protected function mergeValues( &$reference, $values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
 				if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
-					$this->merge_values( $reference[ $key ], $value );
+					$this->mergeValues( $reference[ $key ], $value );
 				} else {
-					$this->merge_values_by_replacing( $reference[ $key ], $value );
+					$this->mergeValuesByReplacing( $reference[ $key ], $value );
 				}
 			}
 		}
 	}
 
-	protected function merge_values_by_replacing( &$reference, $value ) {
+	protected function mergeValuesByReplacing( &$reference, $value ) {
 		$reference = $value;
 	}
 
-	protected function rewrite_appending_selectors( &$values ) {
+	protected function rewriteAppendingSelectors( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
 				if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
-					$this->appending_values( $values, $key );
+					$this->appendingValues( $values, $key );
 				} else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
-					$this->removing_values( $values, $key );
+					$this->removingValues( $values, $key );
 				}
 				if ( is_array( $value ) ) {
-					$this->rewrite_appending_selectors( $value );
+					$this->rewriteAppendingSelectors( $value );
 				}
 			}
 		}
 	}
 
-	protected function appending_values( &$values, $key ) {
+	protected function appendingValues( &$values, $key ) {
 		$reference_key = preg_replace( '/\s*\+\s*$/', '', $key );
 		$reference =& $values[ $reference_key ];
 		$append = $values[ $key ];
 		unset( $values[ $key ] );
-		\UArray::do_convert_to_array( $reference );
-		\UArray::do_convert_to_array( $append );
+		\UArray::doConvertToArray( $reference );
+		\UArray::doConvertToArray( $append );
 		foreach ( $append as $key => $value ) {
 			if ( is_numeric( $key ) ) {
 				$reference[ ] = $value;
@@ -120,12 +120,12 @@ class Parser {
 		}
 	}
 
-	protected function removing_values( &$values, $key ) {
+	protected function removingValues( &$values, $key ) {
 		$reference_key = preg_replace( '/\s*-\s*$/', '', $key );
 		$reference =& $values[ $reference_key ];
 		$remove = $values[ $key ];
 		unset( $values[ $key ] );
-		\UArray::do_convert_to_array( $reference );
-		\UArray::do_remove_value( $reference, $remove );		
+		\UArray::doConvertToArray( $reference );
+		\UArray::doRemoveValue( $reference, $remove );		
 	}
 }

@@ -6,30 +6,30 @@ namespace Pixel418;
 
 class Iniliq {
 
-	const VERSION  = '0.1.8';
+	const VERSION  = '0.2';
 
-	public static function is_deep_selector( $selector ) {
+	public static function isDeepSelector( $selector ) {
 		return ( \UString::has( $selector, '.' ) );
 	}
 
-	public static function has_deep_selector( $array, $selector ) {
-		return static::deep_selector( $array, $selector, function( &$current, $current_key ) {
+	public static function hasDeepSelector( $array, $selector ) {
+		return static::deepSelectorCallback( $array, $selector, function( &$current, $current_key ) {
 			return FALSE;
 		}, function ( &$current, $current_key ) use ( &$array ) {
 			return TRUE;
 		} );
 	}
 
-	public static function get_deep_selector( $array, $selector ) {
-		return static::deep_selector( $array, $selector, function( &$current, $current_key ) {
+	public static function getDeepSelector( $array, $selector ) {
+		return static::deepSelectorCallback( $array, $selector, function( &$current, $current_key ) {
 			return NULL;
 		}, function ( &$current, $current_key ) use ( &$array ) {
 			return $current[ $current_key ];
 		} );
 	}
 
-	public static function set_deep_selector( $array, $selector, $value ) {
-		return static::deep_selector( $array, $selector, function( &$current, $current_key ) {
+	public static function setDeepSelector( $array, $selector, $value ) {
+		return static::deepSelectorCallback( $array, $selector, function( &$current, $current_key ) {
 			$current[ $current_key ] = [ ];
 		}, function ( &$current, $current_key ) use ( &$array, $value ) {
 			$current[ $current_key ] = $value;
@@ -37,8 +37,8 @@ class Iniliq {
 		} );
 	}
 
-	public static function unset_deep_selector( $array, $selector ) {
-		return static::deep_selector( $array, $selector, function( &$current, $current_key ) use ( &$array ) {
+	public static function unsetDeepSelector( $array, $selector ) {
+		return static::deepSelectorCallback( $array, $selector, function( &$current, $current_key ) use ( &$array ) {
 			return $array;
 		}, function ( &$current, $current_key ) use ( &$array ) {
 			unset( $current[ $current_key ] );
@@ -46,7 +46,7 @@ class Iniliq {
 		} );
 	}
 
-	public static function deep_selector( &$array, $selector, $callback_path_not_found, $callback_end ) {
+	public static function deepSelectorCallback( &$array, $selector, $callback_path_not_found, $callback_end ) {
 		$path = explode( '.', $selector );
 		$current_key = $selector;
 		$current =& $array;

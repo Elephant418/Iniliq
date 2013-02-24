@@ -12,7 +12,7 @@ class ArrayObject extends \ArrayObject {
 	/*************************************************************************
 	  CONVERT METHODS				   
 	 *************************************************************************/
-	public function to_array( ) {
+	public function toArray( ) {
 		return $this->getArrayCopy( );
 	}
 
@@ -32,12 +32,12 @@ class ArrayObject extends \ArrayObject {
 		return $default;
 	}
 
-	public function get_as_boolean( $index, $default = NULL ) {
+	public function getAsBoolean( $index, $default = NULL ) {
 		$value = $this->get( $index, $default );
 		return ( ! empty( $value ) && $value !== 'off' );
 	}
 
-	public function get_as_constant( $index, $default = NULL ) {
+	public function getAsConstant( $index, $default = NULL ) {
 		$value = $this->get( $index );
 		if ( defined( $value ) ) {
 			return constant( $value );
@@ -45,13 +45,13 @@ class ArrayObject extends \ArrayObject {
 		return $default;
 	}
 
-	public function get_as_array( $index, $default = [ ] ) {
+	public function getAsArray( $index, $default = [ ] ) {
 		$value = $this->get( $index, $default );
-		return \UArray::convert_to_array( $value );
+		return \UArray::convertToArray( $value );
 	}
 
-	public function get_as_list( $index, $default = [ ] ) {
-		return array_values( $this->get_as_array( $index, $default ) );
+	public function getAsList( $index, $default = [ ] ) {
+		return array_values( $this->getAsArray( $index, $default ) );
 	}
 
 
@@ -60,20 +60,20 @@ class ArrayObject extends \ArrayObject {
 	  HERITED ACCESSOR METHODS				   
 	 *************************************************************************/
 	public function offsetExists( $index ) {
-		return \Pixel418\Iniliq::has_deep_selector( $this->getArrayCopy( ), $index );
+		return \Pixel418\Iniliq::hasDeepSelector( $this->getArrayCopy( ), $index );
 	}
- 
+
 	public function offsetGet( $index ) {
-		return \Pixel418\Iniliq::get_deep_selector( $this->getArrayCopy( ), $index );
+		return \Pixel418\Iniliq::getDeepSelector( $this->getArrayCopy( ), $index );
 	}
  
 	public function offsetSet( $index, $new_val ) {
-		$new_array = \Pixel418\Iniliq::set_deep_selector( $this->getArrayCopy( ), $index, $new_val );
+		$new_array = \Pixel418\Iniliq::setDeepSelector( $this->getArrayCopy( ), $index, $new_val );
 		$this->exchangeArray( $new_array );
 	}
  
 	public function offsetUnset( $index ) {
-		$new_array = \Pixel418\Iniliq::unset_deep_selector( $this->getArrayCopy( ), $index );
+		$new_array = \Pixel418\Iniliq::unsetDeepSelector( $this->getArrayCopy( ), $index );
 		$this->exchangeArray( $new_array );
 	}
 }

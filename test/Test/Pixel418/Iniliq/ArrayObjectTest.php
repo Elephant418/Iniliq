@@ -41,7 +41,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$array = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
 		$result = new ArrayObject( $array );
 		$result[ 'person.creator.organization' ] = 'Pixel418';
-		$new_array = $result->to_array( );
+		$new_array = $result->toArray( );
 		$this->assertTrue( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
 		$this->assertEquals( 'Pixel418', $new_array[ 'person' ][ 'creator'][ 'organization' ] );
 	}
@@ -49,7 +49,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__set__deep( ) {
 		$result = new ArrayObject( [ ] );
 		$result[ 'person.creator.organization' ] = 'Pixel418';
-		$new_array = $result->to_array( );
+		$new_array = $result->toArray( );
 		$this->assertTrue( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
 		$this->assertEquals( 'Pixel418', $new_array[ 'person' ][ 'creator'][ 'organization' ] );
 	}
@@ -58,7 +58,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$array = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
 		$result = new ArrayObject( $array );
 		unset( $result[ 'person.creator.name' ] );
-		$new_array = $result->to_array( );
+		$new_array = $result->toArray( );
 		$this->assertFalse( isset( $new_array[ 'person' ][ 'creator'][ 'name' ] ) );
 	}
 
@@ -70,78 +70,78 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_getter_formated__boolean__true( ) {
 		$array = [ 'boolean' => TRUE ];
 		$result = new ArrayObject( $array );
-		$this->assertTrue( $result->get_as_boolean( 'boolean' ) );
+		$this->assertTrue( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__false( ) {
 		$array = [ 'boolean' => FALSE ];
 		$result = new ArrayObject( $array );
-		$this->assertFalse( $result->get_as_boolean( 'boolean' ) );
+		$this->assertFalse( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__null( ) {
 		$array = [ 'boolean' => NULL ];
 		$result = new ArrayObject( $array );
-		$this->assertFalse( $result->get_as_boolean( 'boolean' ) );
+		$this->assertFalse( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__on( ) {
 		$array = [ 'boolean' => 'on' ];
 		$result = new ArrayObject( $array );
-		$this->assertTrue( $result->get_as_boolean( 'boolean' ) );
+		$this->assertTrue( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__off( ) {
 		$array = [ 'boolean' => 'off' ];
 		$result = new ArrayObject( $array );
-		$this->assertFalse( $result->get_as_boolean( 'boolean' ) );
+		$this->assertFalse( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__1( ) {
 		$array = [ 'boolean' => 1 ];
 		$result = new ArrayObject( $array );
-		$this->assertTrue( $result->get_as_boolean( 'boolean' ) );
+		$this->assertTrue( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__boolean__0( ) {
 		$array = [ 'boolean' => 0 ];
 		$result = new ArrayObject( $array );
-		$this->assertFalse( $result->get_as_boolean( 'boolean' ) );
+		$this->assertFalse( $result->getAsBoolean( 'boolean' ) );
 	}
 
 	public function test_getter_formated__constant__defined( ) {
 		$array = [ 'constant' => 'PHP_EOL' ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( PHP_EOL, $result->get_as_constant( 'constant' ) );
+		$this->assertEquals( PHP_EOL, $result->getAsConstant( 'constant' ) );
 	}
 
 	public function test_getter_formated__constant__not_defined( ) {
 		$array = [ 'constant' => 'COCO' ];
 		$result = new ArrayObject( $array );
-		$this->assertNull( $result->get_as_constant( 'constant' ) );
+		$this->assertNull( $result->getAsConstant( 'constant' ) );
 	}
 
 	public function test_getter_formated__constant__not_defined_with_default( ) {
 		$array = [ 'constant' => 'COCO' ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( 0, $result->get_as_constant( 'constant', '0' ) );
+		$this->assertEquals( 0, $result->getAsConstant( 'constant', 0 ) );
 	}
 
 	public function test_getter_formated__array__match( ) {
 		$array = [ 'array' => [ 'string' ] ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( [ 'string' ], $result->get_as_array( 'array' ) );
+		$this->assertEquals( [ 'string' ], $result->getAsArray( 'array' ) );
 	}
 
 	public function test_getter_formated__array__match_string( ) {
 		$array = [ 'array' => 'string' ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( [ 'string' ], $result->get_as_array( 'array' ) );
+		$this->assertEquals( [ 'string' ], $result->getAsArray( 'array' ) );
 	}
 
 	public function test_getter_formated__array__not_defined( ) {
 		$array = [ 'constant' => 'COCO' ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( [ ], $result->get_as_array( 'array' ) );
+		$this->assertEquals( [ ], $result->getAsArray( 'array' ) );
 	}
 }
