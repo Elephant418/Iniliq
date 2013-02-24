@@ -12,7 +12,7 @@ class ArrayObject extends \ArrayObject {
 	/*************************************************************************
 	  CONVERT METHODS				   
 	 *************************************************************************/
-	public function to_array( ) {
+	public function toArray( ) {
 		return $this->getArrayCopy( );
 	}
 
@@ -32,12 +32,12 @@ class ArrayObject extends \ArrayObject {
 		return $default;
 	}
 
-	public function get_as_boolean( $index, $default = NULL ) {
+	public function getAsBoolean( $index, $default = NULL ) {
 		$value = $this->get( $index, $default );
 		return ( ! empty( $value ) && $value !== 'off' );
 	}
 
-	public function get_as_constant( $index, $default = NULL ) {
+	public function getAsConstant( $index, $default = NULL ) {
 		$value = $this->get( $index );
 		if ( defined( $value ) ) {
 			return constant( $value );

@@ -26,20 +26,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	 *************************************************************************/
 	public function test_parsing_empty( ) {
 		$ini  = ( new Parser )->parse( '' );
-		$this->assertEquals( [ ], $ini->to_array( ) );
+		$this->assertEquals( [ ], $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_simple_file( ) {
 		$file = $this->resource_dir . '/simple.ini';
 		$ini  = ( new Parser )->parse( $file );
-		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->to_array( ) );
+		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_simple_file_two_times( ) {
 		$file  = $this->resource_dir . '/simple.ini';
 		$files = [ $file, $file ];
 		$ini   = ( new Parser )->parse( $files );
-		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->to_array( ) );
+		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_simple_file_with_init_values( ) {
@@ -48,7 +48,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$default = [ 'default_value' => 'on' ];
 		$ini	 = ( new Parser )->parse( $files, $default );
 		$assert  = array_merge( parse_ini_file( $file, TRUE ), $default ); 
-		$this->assertEquals( $assert, $ini->to_array( ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 
 
@@ -59,14 +59,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_a_file_with_list( ) {
 		$file = $this->resource_dir . '/list.ini';
 		$ini  = ( new Parser )->parse( $file );
-		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->to_array( ) );
+		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_list_two_times( ) {
 		$file  = $this->resource_dir . '/list.ini';
 		$files = [ $file, $file ];
 		$ini   = ( new Parser )->parse( $files );
-		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->to_array( ) );
+		$this->assertEquals( parse_ini_file( $file, TRUE ), $ini->toArray( ) );
 	}
 
 
@@ -77,14 +77,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_a_file_with_adding_list( ) {
 		$file = $this->resource_dir . '/list-add.ini';
 		$ini  = ( new Parser )->parse( $file );
-		$this->assertEquals( [ 'extensions' => [ 'Extension3' ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ 'Extension3' ] ], $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_adding_list_to_himself( ) {
 		$file  = $this->resource_dir . '/list-add.ini';
 		$files = [ $file, $file ];
 		$ini   = ( new Parser )->parse( $files );
-		$this->assertEquals( [ 'extensions' => [ 'Extension3', 'Extension3' ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ 'Extension3', 'Extension3' ] ], $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_adding_list_to_another_one( ) {
@@ -92,7 +92,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$files[ ] = $this->resource_dir . '/list.ini';
 		$files[ ] = $this->resource_dir . '/list-add.ini';
 		$ini	  = ( new Parser )->parse( $files );
-		$this->assertEquals( [ 'extensions' => [ 'Extension1', 'Extension2', 'Extension3' ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ 'Extension1', 'Extension2', 'Extension3' ] ], $ini->toArray( ) );
 	}
 
 
@@ -103,14 +103,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_a_file_with_removing_list( ) {
 		$file = $this->resource_dir . '/list-remove.ini';
 		$ini  = ( new Parser )->parse( $file );
-		$this->assertEquals( [ 'extensions' => [ ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ ] ], $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_removing_list_to_himself( ) {
 		$file  = $this->resource_dir . '/list-remove.ini';
 		$files = [ $file, $file ];
 		$ini   = ( new Parser )->parse( $files );
-		$this->assertEquals( [ 'extensions' => [ ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ ] ], $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_removing_list_to_another_one( ) {
@@ -118,7 +118,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$files[ ] = $this->resource_dir . '/list.ini';
 		$files[ ] = $this->resource_dir . '/list-remove.ini';
 		$ini	  = ( new Parser )->parse( $files );
-		$this->assertEquals( [ 'extensions' => [ 'Extension2' ] ], $ini->to_array( ) );
+		$this->assertEquals( [ 'extensions' => [ 'Extension2' ] ], $ini->toArray( ) );
 	}
 
 
@@ -129,14 +129,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_deep_selectors( ) {
 		$ini  = ( new Parser )->parse( [ ], [ 'person.creator.name' => 'Thomas', 'person.creator.role' => [ 'Developer' ] ] );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
-		$this->assertEquals( $assert, $ini->to_array( ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_deep_selectors( ) {
 		$file = $this->resource_dir . '/deep-selector.ini';
 		$ini  = ( new Parser )->parse( $file );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
-		$this->assertEquals( $assert, $ini->to_array( ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 
 
@@ -147,13 +147,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_json_values( ) {
 		$ini  = ( new Parser )->parse( [ ], [ 'person.creator' => '{ name: Thomas, role: [ Developer ] }' ] );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
-		$this->assertEquals( $assert, $ini->to_array( ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_json_values( ) {
 		$file = $this->resource_dir . '/json-value.ini';
 		$ini  = ( new Parser )->parse( $file );
 		$assert = [ 'person' => [ 'creator' => [ 'name' => 'Thomas', 'role' => [ 'Developer' ] ] ] ];
-		$this->assertEquals( $assert, $ini->to_array( ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 }
