@@ -168,7 +168,7 @@ How to Contribute
 
 If you don't know much about pull request, you can read [the Github article](https://help.github.com/articles/using-pull-requests).
 
-All pull requests must follow the PSR1 standard and be accompanied by passing [phpunit](https://github.com/sebastianbergmann/phpunit/) tests.
+All pull requests must follow the [PSR1 standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md) and be accompanied by passing [phpunit](https://github.com/sebastianbergmann/phpunit/) tests.
 
 [&uarr; top](#readme)
 
