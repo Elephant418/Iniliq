@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "pixel418/ubiq": "0.3.2",
+        "pixel418/ubiq": "0.4",
         "php": ">=5.4.0"
     },
     "autoload": {

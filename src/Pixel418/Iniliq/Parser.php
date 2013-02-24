@@ -12,7 +12,7 @@ class Parser {
 	  PUBLIC METHODS				   
 	 *************************************************************************/
 	public function parse( $files, $initialize = [ ] ) {
-		\UArray::do_convert_to_array( $files );
+		\UArray::doConvertToArray( $files );
 		$result = [ ];
 		if ( is_array( $initialize ) ) {
 			array_unshift( $files, $initialize );
@@ -46,7 +46,7 @@ class Parser {
 	protected function rewrite_json_values( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
-				if ( ! is_array( $value ) && \UString::is_start_with( $value, [ '[', '{' ] ) ) {
+				if ( ! is_array( $value ) && \UString::isStartWith( $value, [ '[', '{' ] ) ) {
 					$json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
 					if ( $array = json_decode( $json, TRUE ) ) {
 						$value = $array;
@@ -109,8 +109,8 @@ class Parser {
 		$reference =& $values[ $reference_key ];
 		$append = $values[ $key ];
 		unset( $values[ $key ] );
-		\UArray::do_convert_to_array( $reference );
-		\UArray::do_convert_to_array( $append );
+		\UArray::doConvertToArray( $reference );
+		\UArray::doConvertToArray( $append );
 		foreach ( $append as $key => $value ) {
 			if ( is_numeric( $key ) ) {
 				$reference[ ] = $value;
@@ -125,7 +125,7 @@ class Parser {
 		$reference =& $values[ $reference_key ];
 		$remove = $values[ $key ];
 		unset( $values[ $key ] );
-		\UArray::do_convert_to_array( $reference );
-		\UArray::do_remove_value( $reference, $remove );		
+		\UArray::doConvertToArray( $reference );
+		\UArray::doRemoveValue( $reference, $remove );		
 	}
 }

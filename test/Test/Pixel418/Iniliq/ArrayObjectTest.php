@@ -6,7 +6,7 @@ use \Pixel418\Iniliq\ArrayObject as ArrayObject;
 
 require_once( __DIR__ . '/../../../../vendor/autoload.php' );
 
-class ArrayObject_Test extends \PHPUnit_Framework_TestCase {
+class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 
 
 
@@ -124,6 +124,6 @@ class ArrayObject_Test extends \PHPUnit_Framework_TestCase {
 	public function test_getter_formated__constant__not_defined_with_default( ) {
 		$array = [ 'constant' => 'COCO' ];
 		$result = new ArrayObject( $array );
-		$this->assertEquals( 0, $result->get_as_constant( 'constant', '0' ) );
+		$this->assertEquals( 0, $result->get_as_constant( 'constant', 0 ) );
 	}
 }
