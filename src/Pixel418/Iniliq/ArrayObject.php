@@ -53,7 +53,7 @@ class ArrayObject extends \ArrayObject {
 	public function offsetExists( $index ) {
 		return \Pixel418\Iniliq::has_deep_selector( $this->getArrayCopy( ), $index );
 	}
- 
+
 	public function offsetGet( $index ) {
 		return \Pixel418\Iniliq::get_deep_selector( $this->getArrayCopy( ), $index );
 	}

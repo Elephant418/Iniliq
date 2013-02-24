@@ -142,7 +142,7 @@ Add or complete the composer.json file at the root of your project, like this :
 ```json
 {
     "require": {
-        "pixel418/iniliq": "0.1.7"
+        "pixel418/iniliq": "0.2"
     }
 }
 ```
@@ -168,7 +168,7 @@ How to Contribute
 
 If you don't know much about pull request, you can read [the Github article](https://help.github.com/articles/using-pull-requests).
 
-All pull requests must follow this particular [style guide](https://github.com/Pixel418/Style_Guide) and accompanied by passing [phpunit](https://github.com/sebastianbergmann/phpunit/) tests.
+All pull requests must follow the PSR1 standard and be accompanied by passing [phpunit](https://github.com/sebastianbergmann/phpunit/) tests.
 
 [&uarr; top](#readme)
 
