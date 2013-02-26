@@ -46,8 +46,8 @@ class Parser {
 	protected function rewriteJsonValues( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
-				if ( ! is_array( $value ) && \UString::isStartWith( $value, [ '[', '{' ] ) ) {
-					$json = preg_replace( [ '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ], '\1"\2', $value );
+				if ( ! is_array( $value ) && \UString::isStartWith( $value, array( '[', '{' ) ) ) {
+					$json = preg_replace( array( '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ), '\1"\2', $value );
 					if ( $array = json_decode( $json, TRUE ) ) {
 						$value = $array;
 					}

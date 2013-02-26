@@ -15,7 +15,8 @@ $contents[ 'file-inheritance.ini' ] = <<<EOF
 example.name = file-inheritance
 EOF;
 
-$result = ( new \Pixel418\Iniliq\Parser )->parse( $contents );
+$result = new \Pixel418\Iniliq\Parser;
+$result->parse( $contents );
 
 include( __DIR__ . '/_output.php' );
 
