@@ -30,7 +30,7 @@ class Iniliq {
 
 	public static function setDeepSelector( $array, $selector, $value ) {
 		return static::deepSelectorCallback( $array, $selector, function( &$current, $current_key ) {
-			$current[ $current_key ] = [ ];
+			$current[ $current_key ] = array( );
 		}, function ( &$current, $current_key ) use ( &$array, $value ) {
 			$current[ $current_key ] = $value;
 			return $array;

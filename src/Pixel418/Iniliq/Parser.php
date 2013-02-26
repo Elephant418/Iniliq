@@ -11,9 +11,9 @@ class Parser {
 	/*************************************************************************
 	  PUBLIC METHODS				   
 	 *************************************************************************/
-	public function parse( $files, $initialize = [ ] ) {
+	public function parse( $files, $initialize = array( ) ) {
 		\UArray::doConvertToArray( $files );
-		$result = [ ];
+		$result = array( );
 		if ( is_array( $initialize ) ) {
 			array_unshift( $files, $initialize );
 		}
@@ -32,7 +32,7 @@ class Parser {
 	  PROTECTED METHODS				   
 	 *************************************************************************/
 	protected function parseIni( $file ) {
-		$parsed = [ ];
+		$parsed = array( );
 		if ( is_array( $file ) ) {
 			$parsed = $file;
 		} else if ( \UString::has( $file, PHP_EOL ) ) {

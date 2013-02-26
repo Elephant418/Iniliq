@@ -2,7 +2,7 @@
 
 require_once( __DIR__ . '/../vendor/autoload.php' );
 
-$contents = [ ];
+$contents = array( );
 
 $contents[ 'base.ini' ] = <<<EOF
 [Readme]

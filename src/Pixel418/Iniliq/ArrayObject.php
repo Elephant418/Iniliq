@@ -45,12 +45,12 @@ class ArrayObject extends \ArrayObject {
 		return $default;
 	}
 
-	public function getAsArray( $index, $default = [ ] ) {
+	public function getAsArray( $index, $default = array( ) ) {
 		$value = $this->get( $index, $default );
 		return \UArray::convertToArray( $value );
 	}
 
-	public function getAsList( $index, $default = [ ] ) {
+	public function getAsList( $index, $default = array( ) ) {
 		return array_values( $this->getAsArray( $index, $default ) );
 	}
 
