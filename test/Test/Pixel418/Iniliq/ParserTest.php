@@ -27,6 +27,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_empty( ) {
 		$ini  = new Parser;
 		$ini  = $ini->parse( '' );
+		$this->assertInstanceOf( 'Pixel418\Iniliq\ArrayObject', $ini );
 		$this->assertEquals( array( ), $ini->toArray( ) );
 	}
 
@@ -53,6 +54,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$ini     = $ini->parse( $files, $default );
 		$assert  = array_merge( parse_ini_file( $file, TRUE ), $default ); 
 		$this->assertEquals( $assert, $ini->toArray( ) );
+	}
+
+	public function test_parsing_empty__result_as_array( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::RESULT_AS_ARRAY);
+		$ini  = $ini->parse( '' );
+		$this->assertInternalType( 'array', $ini );
+		$this->assertEquals( array( ), $ini );
 	}
 
 
@@ -104,6 +112,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions' => array( 'Extension1', 'Extension2', 'Extension3' ) ), $ini->toArray( ) );
 	}
 
+	public function test_parsing_a_file_with_adding_list__disabled( ) {
+		$file = $this->resource_dir . '/list-add.ini';
+		$ini  = new Parser( \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS );
+		$ini = $ini->parse( $file );
+		$this->assertEquals( array( 'extensions +' => 'Extension3' ), $ini->toArray( ) );
+	}
+
 
 
 	/*************************************************************************
@@ -133,6 +148,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions' => array( 'Extension2' ) ), $ini->toArray( ) );
 	}
 
+	public function test_parsing_a_file_with_removing_list__disabled( ) {
+		$file = $this->resource_dir . '/list-remove.ini';
+		$ini  = new Parser( \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS );
+		$ini = $ini->parse( $file );
+		$this->assertEquals( array( 'extensions -' => 'Extension1' ), $ini->toArray( ) );
+	}
+
 
 
 	/*************************************************************************
@@ -153,6 +175,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 
+	public function test_parsing_deep_selectors__disable( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+		$deepSelector = array( 'person.creator.name' => 'Thomas', 'person.creator.role' => array( 'Developer' ) );
+		$ini = $ini->parse( array( ), $deepSelector );
+		$this->assertEquals( $deepSelector, $ini->toArray( ) );
+	}
+
 
 
 	/*************************************************************************
@@ -171,5 +200,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$ini = $ini->parse( $file );
 		$assert = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$this->assertEquals( $assert, $ini->toArray( ) );
+	}
+
+	public function test_parsing_json_values__disabled( ) {
+		$ini = new Parser( \Pixel418\Iniliq::DISABLE_JSON_VALUES );
+		$jsonValues = array( 'person' => '{ name: Thomas, role: [ Developer ] }' );
+		$ini = $ini->parse( array( ), $jsonValues );
+		$this->assertEquals( $jsonValues, $ini->toArray( ) );
 	}
 }

@@ -9,6 +9,16 @@ class Parser {
 
 
 	/*************************************************************************
+	  ATTRIBUTES				   
+	 *************************************************************************/
+	protected $jsonValuesOption = TRUE;
+	protected $deepSelectorOption = TRUE;
+	protected $appendSelectorOption = TRUE;
+	protected $arrayObjectOption = TRUE;
+
+
+
+	/*************************************************************************
 	  PUBLIC METHODS				   
 	 *************************************************************************/
 	public function parse( $files, $initialize = array( ) ) {
@@ -19,12 +29,42 @@ class Parser {
 		}
 		foreach ( $files as $file ) {
 			$parsed = $this->parseIni( $file );
-			$this->rewriteJsonValues( $parsed );
-			$this->rewriteDeepSelectors( $parsed );
+			if ( $this->jsonValuesOption ) {
+				$this->rewriteJsonValues( $parsed );
+			}
+			if ( $this->deepSelectorOption ) {
+				$this->rewriteDeepSelectors( $parsed );
+			}
 			$this->mergeValues( $result, $parsed );
-			$this->rewriteAppendingSelectors( $result );
+			if ( $this->appendSelectorOption ) {
+				$this->rewriteAppendingSelectors( $result );
+			}
 		}
-		return new ArrayObject( $result );
+		if ( $this->arrayObjectOption ) {
+			$result = new ArrayObject( $result );
+		}
+		return $result;
+	}
+
+
+	/*************************************************************************
+	  CONSTRUCTOR METHODS				   
+	 *************************************************************************/
+	public function __construct( $options = array( ) ) {
+		\UArray::doConvertToArray( $options );
+		if ( in_array( \Pixel418\Iniliq::DISABLE_JSON_VALUES, $options, TRUE ) ) {
+			$this->jsonValuesOption = FALSE;
+			echo 'bou';
+		}
+		if ( in_array( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS, $options, TRUE ) ) {
+			$this->deepSelectorOption = FALSE;
+		}
+		if ( in_array( \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS, $options, TRUE ) ) {
+			$this->appendSelectorOption = FALSE;
+		}
+		if ( in_array( \Pixel418\Iniliq::RESULT_AS_ARRAY, $options, TRUE ) ) {
+			$this->arrayObjectOption = FALSE;
+		}
 	}
 
 

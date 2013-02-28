@@ -6,8 +6,20 @@ namespace Pixel418;
 
 class Iniliq {
 
-	const VERSION  = '0.2.1';
 
+	/*************************************************************************
+	  CONSTANTS				   
+	 *************************************************************************/
+	const VERSION  = '0.2.1';
+	const DISABLE_JSON_VALUES = 1;
+	const DISABLE_DEEP_SELECTORS = 2;
+	const DISABLE_APPEND_SELECTORS = 3;
+	const RESULT_AS_ARRAY = 4;
+
+
+	/*************************************************************************
+	  STATIC METHODS				   
+	 *************************************************************************/
 	public static function isDeepSelector( $selector ) {
 		return ( \UString::has( $selector, '.' ) );
 	}
