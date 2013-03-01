@@ -95,9 +95,9 @@ class Parser {
 				$parsed = parse_ini_file( $file, TRUE );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
 				// TODO: throw a better exception
-				throw new \Exception( 'File "' . $file . '" not found' );
+				throw new \Exception( 'No such file or directory: ' . $file );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
-				trigger_error( 'File "' . $file . '" not found' );
+				trigger_error( 'No such file or directory: ' . $file );
 			}
 		}
 		return $parsed;
