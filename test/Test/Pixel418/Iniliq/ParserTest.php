@@ -31,6 +31,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( ), $ini->toArray( ) );
 	}
 
+	public function test_parsing_bad_format__exception( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Pixel418\Iniliq\FileNotFoundException' );
+		$ini  = $ini->parse( 'dropdowntrululu' );
+	}
+
+	public function test_parsing_bad_format__error( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
+		$ini  = $ini->parse( 'dropdowntrululu' );
+	}
+
 	public function test_parsing_unexisting_file__quiet( ) {
 		$ini  = new Parser;
 		$ini  = $ini->parse( 'dropdowntrululu' );
@@ -40,6 +52,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	public function test_parsing_unexisting_file__exception( ) {
 		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
 		$this->setExpectedException( 'Pixel418\Iniliq\FileNotFoundException' );
+		$ini  = $ini->parse( 'dropdowntrululu' );
+	}
+
+	public function test_parsing_unexisting_file__error( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
 		$ini  = $ini->parse( 'dropdowntrululu' );
 	}
 

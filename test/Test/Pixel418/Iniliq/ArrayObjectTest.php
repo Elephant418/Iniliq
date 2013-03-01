@@ -46,7 +46,14 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__get__no_match__exception( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'Pixel418\Iniliq\UndefinedIndexException' );
+		$test = $result[ 'person.creator.organization' ];
+	}
+
+	public function test_deep_selector__get__no_match__error( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
 		$test = $result[ 'person.creator.organization' ];
 	}
 
@@ -92,6 +99,13 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
 		$this->setExpectedException( 'Pixel418\Iniliq\UndefinedIndexException' );
+		unset( $result[ 'person.creator.id' ] );
+	}
+
+	public function test_deep_selector__unset__no_match__error( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
 		unset( $result[ 'person.creator.id' ] );
 	}
 

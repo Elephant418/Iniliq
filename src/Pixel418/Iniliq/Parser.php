@@ -98,6 +98,13 @@ class Parser {
 				trigger_error( 'No such file or directory: ' . $file );
 			}
 		}
+		if ( ! is_array( $parsed ) ) {
+			if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
+				throw new BadIniFormatException( 'Bad ini format: ' . substr( $file, 0, 50 ) );
+			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
+				trigger_error( 'Bad ini format: ' . substr( $file, 0, 50 ) );
+			}
+		}
 		return $parsed;
 	}
 
@@ -189,3 +196,5 @@ class Parser {
 }
 
 class FileNotFoundException extends \Exception { }
+
+class BadIniFormatException extends \Exception { }
