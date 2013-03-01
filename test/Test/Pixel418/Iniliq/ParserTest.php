@@ -39,7 +39,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
 	public function test_parsing_unexisting_file__exception( ) {
 		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'Pixel418\Iniliq\FileNotFoundException' );
 		$ini  = $ini->parse( 'dropdowntrululu' );
 	}
 

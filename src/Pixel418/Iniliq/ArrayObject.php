@@ -65,21 +65,6 @@ class ArrayObject extends \ArrayObject {
 		return ( ! empty( $value ) && $value !== 'off' );
 	}
 
-	public function getAsConstant( $index, $default = NULL ) {
-		$value = $this->get( $index );
-		if ( defined( $value ) ) {
-			return constant( $value );
-		} else if ( is_null( $default ) ) {
-			if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
-				// TODO: throw a better exception
-				throw new \Exception( 'Undefined constant: ' . $value );
-			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
-				trigger_error( 'Undefined constant: ' . $value );
-			}
-		}
-		return $default;
-	}
-
 	public function getAsArray( $index, $default = array( ) ) {
 		$value = $this->get( $index, $default );
 		return \UArray::convertToArray( $value );
@@ -140,10 +125,11 @@ class ArrayObject extends \ArrayObject {
 	 *************************************************************************/
 	protected function undefinedIndexAcces( $index ) {
 		if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
-			// TODO: throw a better exception
-			throw new \Exception( 'Undefined index: ' . $index );
+			throw new UndefinedIndexException( 'Undefined index: ' . $index );
 		} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
 			trigger_error( 'Undefined index: ' . $index );
 		}
 	}
 }
+
+class UndefinedIndexException extends \Exception { }

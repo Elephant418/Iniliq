@@ -91,7 +91,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__unset__no_match__exception( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'Pixel418\Iniliq\UndefinedIndexException' );
 		unset( $result[ 'person.creator.id' ] );
 	}
 
@@ -156,24 +156,6 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$array = array( 'boolean' => 0 );
 		$result = new ArrayObject( $array );
 		$this->assertFalse( $result->getAsBoolean( 'boolean' ) );
-	}
-
-	public function test_getter_formated__constant__defined( ) {
-		$array = array( 'constant' => 'PHP_EOL' );
-		$result = new ArrayObject( $array );
-		$this->assertEquals( PHP_EOL, $result->getAsConstant( 'constant' ) );
-	}
-
-	public function test_getter_formated__constant__not_defined( ) {
-		$array = array( 'constant' => 'COCO' );
-		$result = new ArrayObject( $array );
-		$this->assertNull( $result->getAsConstant( 'constant' ) );
-	}
-
-	public function test_getter_formated__constant__not_defined_with_default( ) {
-		$array = array( 'constant' => 'COCO' );
-		$result = new ArrayObject( $array );
-		$this->assertEquals( 0, $result->getAsConstant( 'constant', 0 ) );
 	}
 
 	public function test_getter_formated__array__match( ) {

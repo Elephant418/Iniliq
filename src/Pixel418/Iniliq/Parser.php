@@ -93,8 +93,7 @@ class Parser {
 			if ( is_file( $file ) ) {
 				$parsed = parse_ini_file( $file, TRUE );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
-				// TODO: throw a better exception
-				throw new \Exception( 'No such file or directory: ' . $file );
+				throw new FileNotFoundException( 'No such file or directory: ' . $file );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
 				trigger_error( 'No such file or directory: ' . $file );
 			}
@@ -188,3 +187,5 @@ class Parser {
 		\UArray::doRemoveValue( $reference, $remove );		
 	}
 }
+
+class FileNotFoundException extends \Exception { }
