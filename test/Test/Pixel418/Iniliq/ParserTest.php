@@ -39,8 +39,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
 	public function test_parsing_bad_format__error( ) {
 		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_PHPERROR );
-		$this->setExpectedException( 'PHPUnit_Framework_Error' );
-		$ini  = $ini->parse( 'dropdowntrululu' );
+		// $this->setExpectedException( 'PHPUnit_Framework_Error' );
+		$ini  = $ini->parse( array( ), FALSE );
 	}
 
 	public function test_parsing_unexisting_file__quiet( ) {
