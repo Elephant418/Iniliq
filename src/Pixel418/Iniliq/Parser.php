@@ -15,7 +15,7 @@ class Parser {
 	protected $deepSelectorOption = TRUE;
 	protected $appendSelectorOption = TRUE;
 	protected $arrayObjectOption = TRUE;
-	protected $errorStrategy = 'quiet';
+	protected $errorStrategy;
 
 
 

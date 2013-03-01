@@ -12,7 +12,7 @@ class ArrayObject extends \ArrayObject {
 	  ATTRIBUTES				   
 	 *************************************************************************/
 	protected $deepSelectorOption = TRUE;
-	protected $errorStrategy = 'quiet';
+	protected $errorStrategy;
 
 
 
