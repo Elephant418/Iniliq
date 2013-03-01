@@ -31,6 +31,18 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( ), $ini->toArray( ) );
 	}
 
+	public function test_parsing_unexisting_file__quiet( ) {
+		$ini  = new Parser;
+		$ini  = $ini->parse( 'dropdowntrululu' );
+		$this->assertEquals( array( ), $ini->toArray( ) );
+	}
+
+	public function test_parsing_unexisting_file__exception( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Exception' );
+		$ini  = $ini->parse( 'dropdowntrululu' );
+	}
+
 	public function test_parsing_a_simple_file( ) {
 		$file = $this->resource_dir . '/simple.ini';
 		$ini  = new Parser;

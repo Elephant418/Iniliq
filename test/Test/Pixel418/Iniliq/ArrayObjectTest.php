@@ -43,6 +43,13 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNull( $result[ 'person.creator.organization' ] );
 	}
 
+	public function test_deep_selector__get__no_match__exception( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Exception' );
+		$test = $result[ 'person.creator.organization' ];
+	}
+
 	public function test_deep_selector__get__disabled( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
@@ -73,6 +80,19 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
 		$this->assertTrue( isset( $new_array[ 'person.creator.organization' ] ) );
 		$this->assertEquals( 'Pixel418', $new_array[ 'person.creator.organization' ] );
+	}
+
+	public function test_deep_selector__unset__no_match( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array );
+		unset( $result[ 'person.creator.id' ] );
+	}
+
+	public function test_deep_selector__unset__no_match__exception( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Exception' );
+		unset( $result[ 'person.creator.id' ] );
 	}
 
 	public function test_deep_selector__unset__match( ) {
