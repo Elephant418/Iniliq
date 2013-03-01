@@ -15,6 +15,7 @@ class Parser {
 	protected $deepSelectorOption = TRUE;
 	protected $appendSelectorOption = TRUE;
 	protected $arrayObjectOption = TRUE;
+	protected $errorStrategy = 'quiet';
 
 
 
@@ -41,7 +42,11 @@ class Parser {
 			}
 		}
 		if ( $this->arrayObjectOption ) {
-			$result = new ArrayObject( $result );
+			$options = array( $this->errorStrategy );
+			if ( ! $this->deepSelectorOption ) {
+				$options[ ] = \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS;
+			}
+			$result = new ArrayObject( $result, $options );
 		}
 		return $result;
 	}
@@ -65,6 +70,13 @@ class Parser {
 		if ( in_array( \Pixel418\Iniliq::RESULT_AS_ARRAY, $options, TRUE ) ) {
 			$this->arrayObjectOption = FALSE;
 		}
+		if ( in_array( \Pixel418\Iniliq::ERROR_AS_EXCEPTION, $options, TRUE ) ) {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_EXCEPTION;
+		} else if ( in_array( \Pixel418\Iniliq::ERROR_AS_PHPERROR, $options, TRUE ) ) {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_PHPERROR;
+		} else {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_QUIET;
+		}
 	}
 
 
@@ -77,8 +89,16 @@ class Parser {
 			$parsed = $file;
 		} else if ( \UString::has( $file, PHP_EOL ) ) {
 			$parsed = parse_ini_string( $file, TRUE );
-		} else if ( is_file( $file ) ) {
-			$parsed = parse_ini_file( $file, TRUE );
+			// TODO: catch error
+		} else {
+			if ( is_file( $file ) ) {
+				$parsed = parse_ini_file( $file, TRUE );
+			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
+				// TODO: throw a better exception
+				throw new \Exception( 'File "' . $file . '" not found' );
+			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
+				trigger_error( 'File "' . $file . '" not found' );
+			}
 		}
 		return $parsed;
 	}

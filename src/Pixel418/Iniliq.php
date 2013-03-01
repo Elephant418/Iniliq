@@ -15,6 +15,9 @@ class Iniliq {
 	const DISABLE_DEEP_SELECTORS = 2;
 	const DISABLE_APPEND_SELECTORS = 3;
 	const RESULT_AS_ARRAY = 4;
+	const ERROR_AS_EXCEPTION = 5;
+	const ERROR_AS_PHPERROR = 6;
+	const ERROR_AS_QUIET = 7;
 
 
 	/*************************************************************************

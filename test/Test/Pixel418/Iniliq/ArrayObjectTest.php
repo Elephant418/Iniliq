@@ -13,16 +13,22 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	/*************************************************************************
 	  DEEP SELECTOR TESTS
 	 *************************************************************************/
-	public function test_deep_selector__set__match( ) {
+	public function test_deep_selector__isset__match( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array );
 		$this->assertTrue( isset( $result[ 'person.creator.name' ] ) );
 	}
 
-	public function test_deep_selector__set__no_match( ) {
+	public function test_deep_selector__isset__no_match( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array );
 		$this->assertFalse( isset( $result[ 'person.creator.organization' ] ) );
+	}
+
+	public function test_deep_selector__isset__disabled( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+		$this->assertFalse( isset( $result[ 'person.creator.name' ] ) );
 	}
 
 	public function test_deep_selector__get__match( ) {
@@ -35,6 +41,12 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array );
 		$this->assertNull( $result[ 'person.creator.organization' ] );
+	}
+
+	public function test_deep_selector__get__disabled( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+		$this->assertNull( $result[ 'person.creator.name' ] );
 	}
 
 	public function test_deep_selector__set__simple( ) {
@@ -54,12 +66,29 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( 'Pixel418', $new_array[ 'person' ][ 'creator'][ 'organization' ] );
 	}
 
+	public function test_deep_selector__set__disabled( ) {
+		$result = new ArrayObject( array( ), \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+		$result[ 'person.creator.organization' ] = 'Pixel418';
+		$new_array = $result->toArray( );
+		$this->assertFalse( isset( $new_array[ 'person' ][ 'creator'][ 'organization' ] ) );
+		$this->assertTrue( isset( $new_array[ 'person.creator.organization' ] ) );
+		$this->assertEquals( 'Pixel418', $new_array[ 'person.creator.organization' ] );
+	}
+
 	public function test_deep_selector__unset__match( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array );
 		unset( $result[ 'person.creator.name' ] );
 		$new_array = $result->toArray( );
 		$this->assertFalse( isset( $new_array[ 'person' ][ 'creator'][ 'name' ] ) );
+	}
+
+	public function test_deep_selector__unset__disabled( ) {
+		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$result = new ArrayObject( $array, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+		unset( $result[ 'person.creator.name' ] );
+		$new_array = $result->toArray( );
+		$this->assertTrue( isset( $new_array[ 'person' ][ 'creator'][ 'name' ] ) );
 	}
 
 
