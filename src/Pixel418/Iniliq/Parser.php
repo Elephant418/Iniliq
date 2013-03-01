@@ -59,7 +59,6 @@ class Parser {
 		\UArray::doConvertToArray( $options );
 		if ( in_array( \Pixel418\Iniliq::DISABLE_JSON_VALUES, $options, TRUE ) ) {
 			$this->jsonValuesOption = FALSE;
-			echo 'bou';
 		}
 		if ( in_array( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS, $options, TRUE ) ) {
 			$this->deepSelectorOption = FALSE;
