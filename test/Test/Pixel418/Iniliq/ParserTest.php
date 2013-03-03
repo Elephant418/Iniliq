@@ -149,6 +149,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions +' => 'Extension3' ), $ini->toArray( ) );
 	}
 
+	public function test_parsing_a_file_with_adding_list__disabled__second_arg( ) {
+		$file = $this->resource_dir . '/list-add.ini';
+		$ini  = new Parser( \Pixel418\Iniliq::ENABLE_JSON_VALUES, \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS );
+		$ini = $ini->parse( $file );
+		$this->assertEquals( array( 'extensions +' => 'Extension3' ), $ini->toArray( ) );
+	}
+
 
 
 	/*************************************************************************
@@ -217,7 +224,14 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 	/*************************************************************************
 	  JSON VALUE INI TESTS				   
 	 *************************************************************************/
-	public function test_parsing_json_values( ) {
+	public function test_parsing_json_values__valid( ) {
+		$ini  = new Parser;
+		$ini = $ini->parse( array( ), array( 'person.creator' => '{ "name": "Thomas", "role": [ "Developer" ] }' ) );
+		$assert = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
+	}
+
+	public function test_parsing_json_values__without_quote( ) {
 		$ini  = new Parser;
 		$ini = $ini->parse( array( ), array( 'person.creator' => '{ name: Thomas, role: [ Developer ] }' ) );
 		$assert = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );

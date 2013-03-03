@@ -10,14 +10,18 @@ class Iniliq {
 	/*************************************************************************
 	  CONSTANTS				   
 	 *************************************************************************/
-	const VERSION  = '0.2.1';
-	const DISABLE_JSON_VALUES = 1;
-	const DISABLE_DEEP_SELECTORS = 2;
-	const DISABLE_APPEND_SELECTORS = 3;
-	const RESULT_AS_ARRAY = 4;
-	const ERROR_AS_EXCEPTION = 5;
-	const ERROR_AS_PHPERROR = 6;
-	const ERROR_AS_QUIET = 7;
+	const VERSION  = '0.2.2';
+	const ENABLE_JSON_VALUES = 1;
+	const DISABLE_JSON_VALUES = 2;
+	const ENABLE_DEEP_SELECTORS = 3;
+	const DISABLE_DEEP_SELECTORS = 4;
+	const ENABLE_APPEND_SELECTORS = 5;
+	const DISABLE_APPEND_SELECTORS = 6;
+	const RESULT_AS_ARRAY_OBJECT = 7;
+	const RESULT_AS_ARRAY = 8;
+	const ERROR_AS_QUIET = 9;
+	const ERROR_AS_EXCEPTION = 10;
+	const ERROR_AS_PHPERROR = 11;
 
 
 	/*************************************************************************

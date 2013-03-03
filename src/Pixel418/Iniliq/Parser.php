@@ -51,23 +51,27 @@ class Parser {
 		return $result;
 	}
 
-
-	/*************************************************************************
-	  CONSTRUCTOR METHODS				   
-	 *************************************************************************/
-	public function __construct( $options = array( ) ) {
-		\UArray::doConvertToArray( $options );
+	public function setOptions( ) {
+		$options = func_get_args( );
 		if ( in_array( \Pixel418\Iniliq::DISABLE_JSON_VALUES, $options, TRUE ) ) {
 			$this->jsonValuesOption = FALSE;
+		} else if ( in_array( \Pixel418\Iniliq::ENABLE_JSON_VALUES, $options, TRUE ) ) {
+			$this->jsonValuesOption = TRUE;
 		}
 		if ( in_array( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS, $options, TRUE ) ) {
 			$this->deepSelectorOption = FALSE;
+		} else if ( in_array( \Pixel418\Iniliq::ENABLE_DEEP_SELECTORS, $options, TRUE ) ) {
+			$this->deepSelectorOption = TRUE;
 		}
 		if ( in_array( \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS, $options, TRUE ) ) {
 			$this->appendSelectorOption = FALSE;
+		} else if ( in_array( \Pixel418\Iniliq::ENABLE_APPEND_SELECTORS, $options, TRUE ) ) {
+			$this->appendSelectorOption = TRUE;
 		}
 		if ( in_array( \Pixel418\Iniliq::RESULT_AS_ARRAY, $options, TRUE ) ) {
 			$this->arrayObjectOption = FALSE;
+		} else if ( in_array( \Pixel418\Iniliq::RESULT_AS_ARRAY_OBJECT, $options, TRUE ) ) {
+			$this->arrayObjectOption = TRUE;
 		}
 		if ( in_array( \Pixel418\Iniliq::ERROR_AS_EXCEPTION, $options, TRUE ) ) {
 			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_EXCEPTION;
@@ -76,6 +80,14 @@ class Parser {
 		} else {
 			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_QUIET;
 		}
+	}
+
+
+	/*************************************************************************
+	  CONSTRUCTOR METHODS				   
+	 *************************************************************************/
+	public function __construct( $options = array( ) ) {
+		call_user_func_array( array( $this, 'setOptions' ), func_get_args( ) );
 	}
 
 

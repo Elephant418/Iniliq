@@ -15,31 +15,12 @@ class ArrayObject extends \ArrayObject {
 	protected $errorStrategy;
 
 
-
-	/*************************************************************************
-	  CONVERT METHODS				   
-	 *************************************************************************/
-	public function toArray( ) {
-		return $this->getArrayCopy( );
-	}
-
-
 	/*************************************************************************
 	  CONSTRUCTOR METHODS				   
 	 *************************************************************************/
 	public function __construct( $array, $options = array( ) ) {
 		parent::__construct( $array );
-		\UArray::doConvertToArray( $options );
-		if ( in_array( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS, $options, TRUE ) ) {
-			$this->deepSelectorOption = FALSE;
-		}
-		if ( in_array( \Pixel418\Iniliq::ERROR_AS_EXCEPTION, $options, TRUE ) ) {
-			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_EXCEPTION;
-		} else if ( in_array( \Pixel418\Iniliq::ERROR_AS_PHPERROR, $options, TRUE ) ) {
-			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_PHPERROR;
-		} else {
-			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_QUIET;
-		}
+		call_user_func_array( array( $this, 'setOptions' ), array_slice( func_get_args( ), 1 ) );
 	}
 
 
@@ -115,6 +96,31 @@ class ArrayObject extends \ArrayObject {
 			$this->exchangeArray( $new_array );
 		} else {
 			parent::offsetUnset( $index );
+		}
+	}
+
+
+
+	/*************************************************************************
+	  MISCELLANEOUS PUBLIC METHODS				   
+	 *************************************************************************/
+	public function toArray( ) {
+		return $this->getArrayCopy( );
+	}
+
+	public function setOptions( ) {
+		$options = func_get_args( );
+		if ( in_array( \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS, $options, TRUE ) ) {
+			$this->deepSelectorOption = FALSE;
+		} else if ( in_array( \Pixel418\Iniliq::ENABLE_DEEP_SELECTORS, $options, TRUE ) ) {
+			$this->deepSelectorOption = TRUE;
+		}
+		if ( in_array( \Pixel418\Iniliq::ERROR_AS_EXCEPTION, $options, TRUE ) ) {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_EXCEPTION;
+		} else if ( in_array( \Pixel418\Iniliq::ERROR_AS_PHPERROR, $options, TRUE ) ) {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_PHPERROR;
+		} else {
+			$this->errorStrategy = \Pixel418\Iniliq::ERROR_AS_QUIET;
 		}
 	}
 
