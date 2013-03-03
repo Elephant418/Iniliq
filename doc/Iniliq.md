@@ -22,28 +22,29 @@ $ini = $parser->parse( 'some-file.ini' );
 
 ### Parser options
 
-* Json values:
-  ** <code>\Pixel418\Iniliq::ENABLE_JSON_VALUES</code> (default)
-  ** <code>\Pixel418\Iniliq::DISABLE_JSON_VALUES</code>
+*   Json values:
+    * <code>\Pixel418\Iniliq::ENABLE_JSON_VALUES</code> (default)
+    * <code>\Pixel418\Iniliq::DISABLE_JSON_VALUES</code>
 
-* Deep selectors:
-  ** <code>\Pixel418\Iniliq::ENABLE_DEEP_SELECTORS</code> (default)
-  ** <code>\Pixel418\Iniliq::DISABLE_DEEP_SELECTORS</code> 
+*   Deep selectors:
+    * <code>\Pixel418\Iniliq::ENABLE_DEEP_SELECTORS</code> (default)
+    * <code>\Pixel418\Iniliq::DISABLE_DEEP_SELECTORS</code> 
 
-* Appending & removing selectors:
-  ** <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
-  ** <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
+*   Appending & removing selectors:
+    * <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
+    * <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
 
-* Result format:
-  ** <code>\Pixel418\Iniliq::RESULT_AS_ARRAY_OBJECT</code> (default)
-  ** <code>\Pixel418\Iniliq::RESULT_AS_ARRAY</code>
+*   Result format:
+    * <code>\Pixel418\Iniliq::RESULT_AS_ARRAY_OBJECT</code> (default)
+    * <code>\Pixel418\Iniliq::RESULT_AS_ARRAY</code>
 
-* Error strategy:
-  ** <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
-  ** <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
-  ** <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
+*   Error strategy:
+    * <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
+    * <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
+    * <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
 
 The errors cases are :
+
  * Try to parse an unfound file 
 
 
@@ -51,15 +52,16 @@ The errors cases are :
 
 If you get the ArrayObject by parsing, the options are setted like the Parser.
 
-* Appending & removing selectors:
-  ** <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
-  ** <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
+*   Appending & removing selectors:
+    * <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
+    * <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
 
-* Error strategy:
-  ** <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
-  ** <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
-  ** <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
+*   Error strategy:
+    * <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
+    * <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
+    * <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
 
 The errors cases are :
+
  * Try to get an unknown index
  * Try to unset an unknown index
