@@ -35,32 +35,28 @@ Json values:
 
 * <code>\Pixel418\Iniliq::ENABLE_JSON_VALUES</code> (default)
 * <code>\Pixel418\Iniliq::DISABLE_JSON_VALUES</code>
-<br>
 
 Deep selectors:
 
 * <code>\Pixel418\Iniliq::ENABLE_DEEP_SELECTORS</code> (default)
 * <code>\Pixel418\Iniliq::DISABLE_DEEP_SELECTORS</code>
-<br> 
+ 
 
 Appending & removing array values selectors:
 
 * <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
 * <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
-<br>
 
 Result format:
 
 * <code>\Pixel418\Iniliq::RESULT_AS_ARRAY_OBJECT</code> (default)
 * <code>\Pixel418\Iniliq::RESULT_AS_ARRAY</code>
-<br>
 
 Error strategy:
 
 * <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
 * <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
 * <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
-<br>
 
 [&uarr; top](#readme)
 
@@ -73,14 +69,12 @@ Appending & removing selectors:
 
 * <code>\Pixel418\Iniliq::ENABLE_APPEND_SELECTORS</code> (default)
 * <code>\Pixel418\Iniliq::DISABLE_APPEND_SELECTORS</code>
-<br>
 
 Error strategy:
 
 * <code>\Pixel418\Iniliq::ERROR_AS_QUIET</code> (default)
 * <code>\Pixel418\Iniliq::ERROR_AS_EXCEPTION</code>
 * <code>\Pixel418\Iniliq::ERROR_AS_PHPERROR</code>
-<br>
 
 [&uarr; top](#readme)
 
