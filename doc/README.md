@@ -2,7 +2,7 @@ Iniliq Documentation
 ====================
 
 1. [Options](#options)  
-1.1 [How to set options](#how-to-set-options)
+1.1 [How to set options](#how-to-set-options)  
 1.2 [Parser options](#parser-options)  
 1.3 [ArrayObject options](#arrayobject-options)  
 1.4 [Errors cases](#errors-cases)  
