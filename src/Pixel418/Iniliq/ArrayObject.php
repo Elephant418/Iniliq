@@ -62,7 +62,7 @@ class ArrayObject extends \ArrayObject {
 	 *************************************************************************/
 	public function offsetExists( $index ) {
 		if ( $this->deepSelectorOption ) {
-			return \Pixel418\Iniliq::hasDeepSelector( $this->getArrayCopy( ), $index );
+			return \UArray::hasDeepSelector( $this->getArrayCopy( ), $index );
 		}
 		return parent::offsetExists( $index );
 	}
@@ -73,14 +73,14 @@ class ArrayObject extends \ArrayObject {
 			return NULL;
 		}
 		if ( $this->deepSelectorOption ) {
-			return \Pixel418\Iniliq::getDeepSelector( $this->getArrayCopy( ), $index );
+			return \UArray::getDeepSelector( $this->getArrayCopy( ), $index );
 		}
 		return parent::offsetGet( $index );
 	}
  
 	public function offsetSet( $index, $new_val ) {
 		if ( $this->deepSelectorOption ) {
-			$new_array = \Pixel418\Iniliq::setDeepSelector( $this->getArrayCopy( ), $index, $new_val );
+			$new_array = \UArray::setDeepSelector( $this->getArrayCopy( ), $index, $new_val );
 			$this->exchangeArray( $new_array );
 		}
 		return parent::offsetSet( $index, $new_val );
@@ -92,7 +92,7 @@ class ArrayObject extends \ArrayObject {
 			return NULL;
 		}
 		if ( $this->deepSelectorOption ) {
-			$new_array = \Pixel418\Iniliq::unsetDeepSelector( $this->getArrayCopy( ), $index );
+			$new_array = \UArray::unsetDeepSelector( $this->getArrayCopy( ), $index );
 			$this->exchangeArray( $new_array );
 		} else {
 			parent::offsetUnset( $index );

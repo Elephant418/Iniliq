@@ -135,7 +135,7 @@ class Parser {
 					$this->rewriteDeepSelectors( $value );
 				}
 				if ( \Pixel418\Iniliq::isDeepSelector( $key ) ) {
-					$values = \Pixel418\Iniliq::setDeepSelector( $values, $key, $value );
+					$values = \UArray::setDeepSelector( $values, $key, $value );
 					unset( $values[ $key ] );
 				}
 			}
