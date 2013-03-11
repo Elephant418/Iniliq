@@ -6,7 +6,7 @@ Changelog for Iniliq
 0.3.0: 2013-03-11
 -------- 
 
-* New: Improve reseting & extending management
+* New: Allow developers to override & reset parent settings
 
 
 

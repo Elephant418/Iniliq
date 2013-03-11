@@ -10,7 +10,7 @@ class Iniliq {
 	/*************************************************************************
 	  CONSTANTS				   
 	 *************************************************************************/
-	const VERSION  = '0.2.2';
+	const VERSION  = '0.3.0';
 	const ENABLE_JSON_VALUES = 1;
 	const DISABLE_JSON_VALUES = 2;
 	const ENABLE_DEEP_SELECTORS = 3;
