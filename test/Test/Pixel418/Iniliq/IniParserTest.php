@@ -61,6 +61,42 @@ class IniParserTest extends \PHPUnit_Framework_TestCase {
 		$ini  = $ini->parse( 'dropdowntrululu' );
 	}
 
+	public function test_parsing_bad_formated_file__error( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
+		$ini  = $ini->parse( $this->resource_dir . '/bad-format.ini' );
+	}
+
+	public function test_parsing_bad_formated_file__quiet( ) {
+		$ini  = new Parser;
+		$ini  = $ini->parse( $this->resource_dir . '/bad-format.ini' );
+		$this->assertEquals( array( ), $ini->toArray( ) );
+	}
+
+	public function test_parsing_bad_formated_file__exception( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Exception' );
+		$ini  = $ini->parse( $this->resource_dir . '/bad-format.ini' );
+	}
+
+	public function test_parsing_bad_formated_string__error( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_PHPERROR );
+		$this->setExpectedException( 'PHPUnit_Framework_Error' );
+		$ini  = $ini->parse( file_get_contents( $this->resource_dir . '/bad-format.ini' ) );
+	}
+
+	public function test_parsing_bad_formated_string__quiet( ) {
+		$ini  = new Parser;
+		$ini  = $ini->parse( file_get_contents( $this->resource_dir . '/bad-format.ini' ) );
+		$this->assertEquals( array( ), $ini->toArray( ) );
+	}
+
+	public function test_parsing_bad_formated_string__exception( ) {
+		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
+		$this->setExpectedException( 'Exception' );
+		$ini  = $ini->parse( file_get_contents( $this->resource_dir . '/bad-format.ini' ) );
+	}
+
 	public function test_parsing_a_simple_file( ) {
 		$file = $this->resource_dir . '/simple.ini';
 		$ini  = new Parser;

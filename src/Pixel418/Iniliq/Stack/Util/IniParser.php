@@ -91,14 +91,18 @@ class IniParser {
 		if ( is_array( $file ) ) {
 			$parsed = $file;
 		} else if ( \UString::has( $file, PHP_EOL ) ) {
-			$parsed = parse_ini_string( $file, TRUE );
+			$parsed = @parse_ini_string( $file, TRUE );
+			if ( $parsed === FALSE ) {
+				$this->manageError( 'The ini string has a bad format.' );
+			}
 		} else {
 			if ( is_file( $file ) ) {
-				$parsed = parse_ini_file( $file, TRUE );
-			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
-				throw new \Exception( 'No such file or directory: ' . $file );
-			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
-				trigger_error( 'No such file or directory: ' . $file );
+				$parsed = @parse_ini_file( $file, TRUE );
+				if ( $parsed === FALSE ) {
+					$this->manageError( 'The ini file has a bad format: ' . $file );
+				}
+			} else {
+				$this->manageError( 'No such file or directory: ' . $file );
 			}
 		}
 		return $parsed;
@@ -204,5 +208,13 @@ class IniParser {
 		\UArray::doConvertToArray( $reference );
 		\UArray::doRemoveValue( $reference, $remove );
 		$key = $reference_key;
+	}
+
+	protected function manageError( $message ) {
+		if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
+			throw new \Exception( $message );
+		} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
+			trigger_error( $message );
+		}
 	}
 }
