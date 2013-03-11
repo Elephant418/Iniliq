@@ -107,23 +107,19 @@ class Parser {
 	protected function mergeValues( &$reference, $values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => $value ) {
-				if ( isset( $reference[ $key ] ) && is_array( $value ) && ! empty( $value ) && \UArray::isAssociative( $value ) ) {
-					$this->mergeValues( $reference[ $key ], $value );
-				} else {
-					$conflict = array( $key => $value );
-					if ( $this->jsonValuesOption ) {
-						$this->rewriteJsonValues( $conflict );
-					}
-					if ( $this->deepSelectorOption ) {
-						$this->rewriteDeepSelectors( $conflict[ $key ] );
-					}
-					$reference[ $key ] = $conflict[ $key ];
-					if ( $this->deepSelectorOption ) {
-						$this->rewriteDeepSelectors( $reference );
-					}
-					if ( $this->appendSelectorOption ) {
-						$this->rewriteAppendingSelectors( $reference );
-					}
+				$append = array( $key => $value );
+				if ( $this->jsonValuesOption ) {
+					$this->rewriteJsonValues( $append );
+				}
+				if ( $this->deepSelectorOption ) {
+					$this->rewriteDeepSelectors( $append[ $key ] );
+				}
+				$reference[ $key ] = $append[ $key ];
+				if ( $this->deepSelectorOption ) {
+					$this->rewriteDeepSelectors( $reference );
+				}
+				if ( $this->appendSelectorOption ) {
+					$this->rewriteAppendingSelectors( $reference );
 				}
 			}
 		}
@@ -161,8 +157,10 @@ class Parser {
 			foreach ( $values as $key => &$value ) {
 				if ( preg_match( '/\s*\+\s*$/', $key ) > 0 ) {
 					$this->appendingValues( $values, $key );
+					$value =& $values[ $key ];
 				} else if ( preg_match( '/\s*-\s*$/', $key ) > 0 ) {
 					$this->removingValues( $values, $key );
+					$value =& $values[ $key ];
 				}
 				if ( is_array( $value ) ) {
 					$this->rewriteAppendingSelectors( $value );
@@ -171,29 +169,41 @@ class Parser {
 		}
 	}
 
-	protected function appendingValues( &$values, $key ) {
+	protected function appendingValues( &$values, &$key ) {
 		$reference_key = preg_replace( '/\s*\+\s*$/', '', $key );
-		$reference =& $values[ $reference_key ];
-		$append = $values[ $key ];
+		$append = array( $reference_key => $values[ $key ] );
 		unset( $values[ $key ] );
-		\UArray::doConvertToArray( $reference );
-		\UArray::doConvertToArray( $append );
+		$values = $this->mergeRecursive( $values, $append );
+		$key = $reference_key;
+	}
+
+	protected function mergeRecursive( $reference, $append ) {
 		foreach ( $append as $key => $value ) {
-			if ( is_numeric( $key ) ) {
-				$reference[ ] = $value;
+			if ( isset( $reference[ $key ] ) ) {
+				if ( is_array( $reference[ $key ] ) && is_array( $value ) ) {
+					$reference[ $key ] = $this->mergeRecursive( $reference[ $key ], $value );
+				} else {
+					if ( is_numeric( $key ) ) {
+						$reference[ ] = $value;
+					} else {
+						$reference[ $key ] = $value;
+					}
+				}
 			} else {
 				$reference[ $key ] = $value;
 			}
 		}
+		return $reference;
 	}
 
-	protected function removingValues( &$values, $key ) {
+	protected function removingValues( &$values, &$key ) {
 		$reference_key = preg_replace( '/\s*-\s*$/', '', $key );
 		$reference =& $values[ $reference_key ];
 		$remove = $values[ $key ];
 		unset( $values[ $key ] );
 		\UArray::doConvertToArray( $reference );
-		\UArray::doRemoveValue( $reference, $remove );		
+		\UArray::doRemoveValue( $reference, $remove );
+		$key = $reference_key;
 	}
 }
 

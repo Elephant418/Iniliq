@@ -3,6 +3,34 @@ Changelog for Iniliq
 
 
 
+0.3.0: 2013-03-11
+-------- 
+
+* New: Improve reseting & extending management
+
+
+
+0.2.5: 2013-03-10
+-------- 
+
+* Fix: PHP5.3 compatibility
+
+
+
+0.2.4: 2013-03-10
+-------- 
+
+* Fix: Empty json evaluation
+
+
+
+0.2.3: 2013-03-10
+-------- 
+
+* New: Move deep selectors functions to Ubiq
+
+
+
 0.2.2: 2013-03-03
 -------- 
 

@@ -8,7 +8,7 @@ example.selectors.deep = nice
 EOF;
 
 $result = new \Pixel418\Iniliq\Parser;
-$result->parse( $content );
+$result = $result->parse( $content );
 
 include( __DIR__ . '/_output.php' );
 

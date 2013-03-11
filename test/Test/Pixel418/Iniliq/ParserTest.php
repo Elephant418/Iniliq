@@ -133,7 +133,16 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions' => array( 'Extension3', 'Extension3' ) ), $ini->toArray( ) );
 	}
 
-	public function test_parsing_a_file_with_adding_list_to_another_one( ) {
+	public function testParsing_twoFiles_listOverride( ) {
+		$files	= array( );
+		$files[ ] = $this->resource_dir . '/list.ini';
+		$files[ ] = $this->resource_dir . '/list.ini';
+		$ini      = new Parser;
+		$ini = $ini->parse( $files );
+		$this->assertEquals( array( 'extensions' => array( 'Extension1', 'Extension2' ) ), $ini->toArray( ) );
+	}
+
+	public function testParsing_twoFiles_listExtends( ) {
 		$files	= array( );
 		$files[ ] = $this->resource_dir . '/list.ini';
 		$files[ ] = $this->resource_dir . '/list-add.ini';
@@ -142,18 +151,45 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions' => array( 'Extension1', 'Extension2', 'Extension3' ) ), $ini->toArray( ) );
 	}
 
+	public function testParsing_twoFiles_sectionOverride( ) {
+		$files	= array( );
+		$files[ ] = $this->resource_dir . '/section.ini';
+		$files[ ] = $this->resource_dir . '/section.ini';
+		$ini      = new Parser;
+		$ini = $ini->parse( $files );
+		$this->assertEquals( array( 'extensions' => array( 'list' => array( 'Extension1', 'Extension2' ) ) ), $ini->toArray( ) );
+	}
+
+	public function testParsing_twoFiles_sectionExtends( ) {
+		$files	= array( );
+		$files[ ] = $this->resource_dir . '/section.ini';
+		$files[ ] = $this->resource_dir . '/section-add.ini';
+		$ini      = new Parser;
+		$ini = $ini->parse( $files );
+		$this->assertEquals( array( 'extensions' => array( 'list' => array( 'Extension1', 'Extension2', 'Extension1', 'Extension2' ) ) ), $ini->toArray( ) );
+	}
+
+	public function testParsing_twoFiles_sectionReset( ) {
+		$files	= array( );
+		$files[ ] = $this->resource_dir . '/section.ini';
+		$files[ ] = $this->resource_dir . '/list-reset.ini';
+		$ini      = new Parser;
+		$ini = $ini->parse( $files );
+		$this->assertEquals( array( 'extensions' => array( 'name' => array( 'Extension1' ) ) ), $ini->toArray( ) );
+	}
+
 	public function test_parsing_a_file_with_adding_list__disabled( ) {
 		$file = $this->resource_dir . '/list-add.ini';
 		$ini  = new Parser( \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS );
 		$ini = $ini->parse( $file );
-		$this->assertEquals( array( 'extensions +' => 'Extension3' ), $ini->toArray( ) );
+		$this->assertEquals( array( 'extensions+' =>  array( 'Extension3' ) ), $ini->toArray( ) );
 	}
 
 	public function test_parsing_a_file_with_adding_list__disabled__second_arg( ) {
 		$file = $this->resource_dir . '/list-add.ini';
 		$ini  = new Parser( \Pixel418\Iniliq::ENABLE_JSON_VALUES, \Pixel418\Iniliq::DISABLE_APPEND_SELECTORS );
 		$ini = $ini->parse( $file );
-		$this->assertEquals( array( 'extensions +' => 'Extension3' ), $ini->toArray( ) );
+		$this->assertEquals( array( 'extensions+' => array( 'Extension3' ) ), $ini->toArray( ) );
 	}
 
 
@@ -228,6 +264,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 		$ini  = new Parser;
 		$ini = $ini->parse( array( ), array( 'person.creator' => '{ "name": "Thomas", "role": [ "Developer" ] }' ) );
 		$assert = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
+		$this->assertEquals( $assert, $ini->toArray( ) );
+	}
+
+	public function test_parsing_json_values__empty( ) {
+		$ini  = new Parser;
+		$ini = $ini->parse( array( ), array( 'person' => '[ ]' ) );
+		$assert = array( 'person' => array( ) );
 		$this->assertEquals( $assert, $ini->toArray( ) );
 	}
 

@@ -12,12 +12,12 @@ musketeers.name[ ] = "D'Artagnan"
 EOF;
 
 $contents[ 'adding-values.ini' ] = <<<EOF
-[Readme]
+[Readme+]
 musketeers.name += Aramis
 EOF;
 
 $result = new \Pixel418\Iniliq\Parser;
-$result->parse( $contents );
+$result = $result->parse( $contents );
 
 include( __DIR__ . '/_output.php' );
 

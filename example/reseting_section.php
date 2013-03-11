@@ -4,15 +4,15 @@ require_once( __DIR__ . '/../vendor/autoload.php' );
 
 $contents = array( );
 
-$contents[ 'base.ini' ] = <<<EOF
+$contents[ 'list.ini' ] = <<<EOF
 [Readme]
-example[name] = John Doe
-example[id] = 3
+musketeers.name[ ]="Athos"
+musketeers.name[ ]="Porthos"
 EOF;
 
-$contents[ 'file-inheritance.ini' ] = <<<EOF
+$contents[ 'reset.ini' ] = <<<EOF
 [Readme+]
-example.name = file-inheritance
+musketeers.name+[]="Aramis"
 EOF;
 
 $result = new \Pixel418\Iniliq\Parser;

@@ -17,4 +17,4 @@ foreach ( $contents as $name => $content ) {
 echo PHP_EOL;
 echo 'Result parsing' . PHP_EOL;
 echo '---------' . PHP_EOL;
-print_r( $result );
+print_r( $result->toArray( ) );
