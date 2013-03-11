@@ -11,6 +11,7 @@ class Parser {
 	/*************************************************************************
 	  ATTRIBUTES				   
 	 *************************************************************************/
+	const ARRAY_OVERRIDE = 'ze5f4z65f43';
 	protected $jsonValuesOption = TRUE;
 	protected $deepSelectorOption = TRUE;
 	protected $appendSelectorOption = TRUE;
@@ -30,16 +31,7 @@ class Parser {
 		}
 		foreach ( $files as $file ) {
 			$parsed = $this->parseIni( $file );
-			if ( $this->jsonValuesOption ) {
-				$this->rewriteJsonValues( $parsed );
-			}
-			if ( $this->deepSelectorOption ) {
-				$this->rewriteDeepSelectors( $parsed );
-			}
 			$this->mergeValues( $result, $parsed );
-			if ( $this->appendSelectorOption ) {
-				$this->rewriteAppendingSelectors( $result );
-			}
 		}
 		if ( $this->arrayObjectOption ) {
 			$options = array( $this->errorStrategy );
@@ -112,18 +104,42 @@ class Parser {
 		return $parsed;
 	}
 
+	protected function mergeValues( &$reference, $values ) {
+		if ( is_array( $values ) ) {
+			foreach ( $values as $key => $value ) {
+				if ( isset( $reference[ $key ] ) && is_array( $value ) && ! empty( $value ) && \UArray::isAssociative( $value ) ) {
+					$this->mergeValues( $reference[ $key ], $value );
+				} else {
+					$conflict = [ $key => $value ];
+					if ( $this->jsonValuesOption ) {
+						$this->rewriteJsonValues( $conflict );
+					}
+					if ( $this->deepSelectorOption ) {
+						$this->rewriteDeepSelectors( $conflict[ $key ] );
+					}
+					$reference[ $key ] = $conflict[ $key ];
+					if ( $this->deepSelectorOption ) {
+						$this->rewriteDeepSelectors( $reference );
+					}
+					if ( $this->appendSelectorOption ) {
+						$this->rewriteAppendingSelectors( $reference );
+					}
+				}
+			}
+		}
+	}
+
 	protected function rewriteJsonValues( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
 				if ( ! is_array( $value ) && \UString::isStartWith( $value, array( '[', '{' ) ) ) {
 					$json = preg_replace( array( '/([\[\]\{\}:,])\s*(\w)/', '/(\w)\s*([\[\]\{\}:,])/' ), '\1"\2', $value );
-					if ( $array = json_decode( $json, TRUE ) ) {
+					$array = json_decode( $json, TRUE );
+					if ( $array !== FALSE ) {
 						$value = $array;
 					}
 				}
-				if ( is_array( $value ) ) {
-					$this->rewriteJsonValues( $value );
-				}
+				$this->rewriteJsonValues( $value );
 			}
 		}
 	}
@@ -131,31 +147,13 @@ class Parser {
 	protected function rewriteDeepSelectors( &$values ) {
 		if ( is_array( $values ) ) {
 			foreach ( $values as $key => &$value ) {
-				if ( is_array( $value ) ) {
-					$this->rewriteDeepSelectors( $value );
-				}
+				$this->rewriteDeepSelectors( $value );
 				if ( \Pixel418\Iniliq::isDeepSelector( $key ) ) {
 					$values = \UArray::setDeepSelector( $values, $key, $value );
 					unset( $values[ $key ] );
 				}
 			}
 		}
-	}
-
-	protected function mergeValues( &$reference, $values ) {
-		if ( is_array( $values ) ) {
-			foreach ( $values as $key => $value ) {
-				if ( isset( $reference[ $key ] ) && is_array( $value ) ) {
-					$this->mergeValues( $reference[ $key ], $value );
-				} else {
-					$this->mergeValuesByReplacing( $reference[ $key ], $value );
-				}
-			}
-		}
-	}
-
-	protected function mergeValuesByReplacing( &$reference, $value ) {
-		$reference = $value;
 	}
 
 	protected function rewriteAppendingSelectors( &$values ) {
