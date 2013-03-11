@@ -110,7 +110,7 @@ class Parser {
 				if ( isset( $reference[ $key ] ) && is_array( $value ) && ! empty( $value ) && \UArray::isAssociative( $value ) ) {
 					$this->mergeValues( $reference[ $key ], $value );
 				} else {
-					$conflict = [ $key => $value ];
+					$conflict = array( $key => $value );
 					if ( $this->jsonValuesOption ) {
 						$this->rewriteJsonValues( $conflict );
 					}
