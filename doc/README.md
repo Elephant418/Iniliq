@@ -82,6 +82,8 @@ Error strategy:
 ### Errors cases
 
  * Parser: Try to parse an unfound file 
+ * Parser: Bad ini format file
+ * Parser: Bad ini format string
  * ArrayObject: Try to get an unknown index
  * ArrayObject: Try to unset an unknown index
 

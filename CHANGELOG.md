@@ -7,6 +7,8 @@ Changelog for Iniliq
 -------- 
 
 * New: Allow developers to override & reset parent settings
+* New: Also available as a Staq extension
+* New: Manage error strategy on bad formated ini file & string
 
 
 
