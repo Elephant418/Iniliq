@@ -15,7 +15,7 @@ $contents[ 'reset.ini' ] = <<<EOF
 musketeers.name+[]="Aramis"
 EOF;
 
-$result = new \Pixel418\Iniliq\Parser;
+$result = new \Pixel418\Iniliq\IniParser;
 $result = $result->parse( $contents );
 
 include( __DIR__ . '/_output.php' );

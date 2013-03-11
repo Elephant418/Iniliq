@@ -15,13 +15,13 @@ Options
 
 By giving arguments to the constructor:
 ```php
-$parser = new \Pixel418\Iniliq\Parser( \Pixel418\Iniliq::DISABLE_JSON_VALUES, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
+$parser = new \Pixel418\Iniliq\IniParser( \Pixel418\Iniliq::DISABLE_JSON_VALUES, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
 $ini = $parser->parse( 'some-file.ini' );
 ```
 
 Or use setOptions method:
 ```php
-$parser = new \Pixel418\Iniliq\Parser;
+$parser = new \Pixel418\Iniliq\IniParser;
 $parser->setOptions( \Pixel418\Iniliq::DISABLE_JSON_VALUES, \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS );
 $ini = $parser->parse( 'some-file.ini' );
 ```

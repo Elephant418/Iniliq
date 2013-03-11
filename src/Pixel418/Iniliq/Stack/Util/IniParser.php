@@ -2,10 +2,9 @@
 
 /* This file is part of the Iniliq project, which is under MIT license */
 
-namespace Pixel418\Iniliq;
+namespace Pixel418\Iniliq\Stack\Util;
 
-
-class Parser {
+class IniParser {
 
 
 	/*************************************************************************
@@ -38,7 +37,8 @@ class Parser {
 			if ( ! $this->deepSelectorOption ) {
 				$options[ ] = \Pixel418\Iniliq::DISABLE_DEEP_SELECTORS;
 			}
-			$result = new ArrayObject( $result, $options );
+			$ArrayClass = \UObject::getNamespace( $this ) . '\\ArrayObject';
+			$result = new $ArrayClass( $result, $options );
 		}
 		return $result;
 	}
@@ -96,7 +96,7 @@ class Parser {
 			if ( is_file( $file ) ) {
 				$parsed = parse_ini_file( $file, TRUE );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_EXCEPTION ) {
-				throw new FileNotFoundException( 'No such file or directory: ' . $file );
+				throw new \Exception( 'No such file or directory: ' . $file );
 			} else if ( $this->errorStrategy == \Pixel418\Iniliq::ERROR_AS_PHPERROR ) {
 				trigger_error( 'No such file or directory: ' . $file );
 			}
@@ -206,5 +206,3 @@ class Parser {
 		$key = $reference_key;
 	}
 }
-
-class FileNotFoundException extends \Exception { }

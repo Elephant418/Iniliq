@@ -46,7 +46,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__get__no_match__exception( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Pixel418\Iniliq\UndefinedIndexException' );
+		$this->setExpectedException( 'Exception' );
 		$test = $result[ 'person.creator.organization' ];
 	}
 
@@ -98,7 +98,7 @@ class ArrayObjectTest extends \PHPUnit_Framework_TestCase {
 	public function test_deep_selector__unset__no_match__exception( ) {
 		$array = array( 'person' => array( 'creator' => array( 'name' => 'Thomas', 'role' => array( 'Developer' ) ) ) );
 		$result = new ArrayObject( $array, \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Pixel418\Iniliq\UndefinedIndexException' );
+		$this->setExpectedException( 'Exception' );
 		unset( $result[ 'person.creator.id' ] );
 	}
 

@@ -4,5 +4,5 @@
 
 namespace Pixel418\Iniliq;
 
-class ArrayObject extends Stack\Util\ArrayObject {
+class IniParser extends Stack\Util\IniParser {
 }

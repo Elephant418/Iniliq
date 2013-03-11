@@ -2,13 +2,13 @@
 
 namespace Test\Pixel418\Iniliq;
 
-use \Pixel418\Iniliq\Parser as Parser;
+use \Pixel418\Iniliq\IniParser as Parser;
 
 require_once( __DIR__ . '/../../../../vendor/autoload.php' );
 
 echo 'Iniliq ' . \Pixel418\Iniliq::VERSION . ' tested with ';
 
-class ParserTest extends \PHPUnit_Framework_TestCase {
+class IniParserTest extends \PHPUnit_Framework_TestCase {
 
 
 
@@ -33,7 +33,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
 	public function test_parsing_bad_format__exception( ) {
 		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Pixel418\Iniliq\FileNotFoundException' );
+		$this->setExpectedException( 'Exception' );
 		$ini  = $ini->parse( 'dropdowntrululu' );
 	}
 
@@ -51,7 +51,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase {
 
 	public function test_parsing_unexisting_file__exception( ) {
 		$ini  = new Parser( \Pixel418\Iniliq::ERROR_AS_EXCEPTION );
-		$this->setExpectedException( 'Pixel418\Iniliq\FileNotFoundException' );
+		$this->setExpectedException( 'Exception' );
 		$ini  = $ini->parse( 'dropdowntrululu' );
 	}
 
