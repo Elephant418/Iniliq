@@ -177,27 +177,8 @@ class IniParser {
 		$reference_key = preg_replace( '/\s*\+\s*$/', '', $key );
 		$append = array( $reference_key => $values[ $key ] );
 		unset( $values[ $key ] );
-		$values = $this->mergeRecursive( $values, $append );
+		\UArray::doMergeRecursive( $values, $append );
 		$key = $reference_key;
-	}
-
-	protected function mergeRecursive( $reference, $append ) {
-		foreach ( $append as $key => $value ) {
-			if ( isset( $reference[ $key ] ) ) {
-				if ( is_array( $reference[ $key ] ) && is_array( $value ) ) {
-					$reference[ $key ] = $this->mergeRecursive( $reference[ $key ], $value );
-				} else {
-					if ( is_numeric( $key ) ) {
-						$reference[ ] = $value;
-					} else {
-						$reference[ $key ] = $value;
-					}
-				}
-			} else {
-				$reference[ $key ] = $value;
-			}
-		}
-		return $reference;
 	}
 
 	protected function removingValues( &$values, &$key ) {
