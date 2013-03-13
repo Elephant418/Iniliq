@@ -175,6 +175,8 @@ class IniParser {
 
 	protected function appendingValues( &$values, &$key ) {
 		$reference_key = preg_replace( '/\s*\+\s*$/', '', $key );
+		\UArray::doConvertToArray( $values[ $reference_key ] );
+		\UArray::doConvertToArray( $values[ $key ] );
 		$append = array( $reference_key => $values[ $key ] );
 		unset( $values[ $key ] );
 		\UArray::doMergeRecursive( $values, $append );
