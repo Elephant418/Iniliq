@@ -187,6 +187,17 @@ class IniParserTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( array( 'extensions' => array( 'Extension1', 'Extension2', 'Extension3' ) ), $ini->toArray( ) );
 	}
 
+	public function testParsing_twoFiles_valueExtends( ) {
+		$files	= array( );
+		$files[ ] = $this->resource_dir . '/simple.ini';
+		$files[ ] = $this->resource_dir . '/simple-add.ini';
+		$ini      = new Parser;
+		$ini = $ini->parse( $files );
+		$ini->toArray( );
+		$this->assertTrue( isset( $ini[ 'owner' ] ) && isset( $ini[ 'owner' ][ 'name' ] ) );
+		$this->assertEquals( array( 'John Doe', 'Henri Poincarré' ), $ini[ 'owner' ][ 'name' ] );
+	}
+
 	public function testParsing_twoFiles_sectionOverride( ) {
 		$files	= array( );
 		$files[ ] = $this->resource_dir . '/section.ini';
