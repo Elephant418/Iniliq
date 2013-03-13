@@ -3,6 +3,13 @@ Changelog for Iniliq
 
 
 
+0.3.1: 2013-03-13
+-------- 
+
+* Fix: The result of an appending must always be an array
+
+
+
 0.3.0: 2013-03-11
 -------- 
 
