@@ -3,6 +3,13 @@ Changelog for Iniliq
 
 
 
+0.3.2: 2013-05-10
+--------
+
+* Fix: Softer dependency to Ubiq
+
+
+
 0.3.1: 2013-03-13
 -------- 
 
