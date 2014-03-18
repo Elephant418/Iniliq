@@ -1,4 +1,4 @@
-Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png)](http://travis-ci.org/Pixel418/Iniliq)
+Iniliq [![Build Status](https://secure.travis-ci.org/Pixel418/Iniliq.png?branch=master)](http://travis-ci.org/Pixel418/Iniliq?branch=master)
 ======
 
 An ini parser for inherited values through multiple configuration files
